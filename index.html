@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=390, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Jarosław Pawełczyk — Google Tech Talk</title>
+  <title>Jarek Pawelczyk @ Google TechTank</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Raleway:ital,wght@0,300;0,400;0,600;1,300&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Raleway:wght@300;400;600&display=swap');
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -15,409 +15,560 @@
       height: 844px;
       overflow: hidden;
       position: relative;
-      font-family: 'Raleway', sans-serif;
-      background: #0a0f1e;
+      background: #060e20;
     }
 
-    /* ── SKY ───────────────────────────────────────────────── */
-    .sky {
+    /* ── BACKGROUND ─────────────────────────────────────────── */
+    .bg {
       position: absolute;
       inset: 0;
-      background: linear-gradient(
-        180deg,
-        #0a0f1e 0%,
-        #0d1b3e 12%,
-        #1a2f6b 28%,
-        #2e5fa3 44%,
-        #5b8ec4 56%,
-        #a2c4dd 66%,
-        #f0cfa0 78%,
-        #e8a96a 88%,
-        #c97940 95%,
-        #9b4f22 100%
-      );
-      animation: skyShift 20s ease-in-out infinite alternate;
-    }
-    @keyframes skyShift {
-      0%   { filter: hue-rotate(0deg) brightness(1); }
-      100% { filter: hue-rotate(15deg) brightness(1.05); }
+      background:
+        radial-gradient(ellipse 420px 420px at 195px 410px, rgba(0,100,220,0.38) 0%, transparent 68%),
+        radial-gradient(ellipse 280px 280px at 195px 410px, rgba(200,0,120,0.18) 0%, transparent 62%),
+        linear-gradient(180deg, #040c1c 0%, #071428 25%, #081630 55%, #071220 80%, #050e1a 100%);
     }
 
-    /* ── STARS ─────────────────────────────────────────────── */
-    .stars {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-    }
-    .star {
+    /* ── SPIRIT ORBS (Ghibli magic) ─────────────────────────── */
+    .spirit {
       position: absolute;
       border-radius: 50%;
-      background: #fff;
-      animation: twinkle var(--d, 3s) ease-in-out infinite alternate;
-    }
-    @keyframes twinkle {
-      from { opacity: var(--a1, 0.2); transform: scale(1); }
-      to   { opacity: var(--a2, 0.9); transform: scale(1.5); }
-    }
-
-    /* ── CLOUDS ────────────────────────────────────────────── */
-    .clouds {
-      position: absolute;
-      inset: 0;
+      background: radial-gradient(circle, rgba(255,224,100,0.95) 0%, rgba(255,170,0,0.5) 45%, transparent 80%);
       pointer-events: none;
+      z-index: 5;
+      animation: spiritFloat var(--sf) ease-in-out infinite,
+                 spiritFade  var(--sf2) ease-in-out infinite;
     }
-    .cloud {
-      position: absolute;
-      border-radius: 50px;
-      filter: blur(2px);
-      opacity: 0.55;
-      animation: drift linear infinite;
+    @keyframes spiritFloat {
+      0%   { transform: translate(0px, 0px); }
+      25%  { transform: translate(var(--x1), var(--y1)); }
+      50%  { transform: translate(var(--x2), var(--y2)); }
+      75%  { transform: translate(var(--x3), var(--y3)); }
+      100% { transform: translate(0px, 0px); }
     }
-    .cloud::before, .cloud::after {
-      content: '';
-      position: absolute;
-      background: inherit;
-      border-radius: 50%;
-    }
-    @keyframes drift {
-      from { transform: translateX(-300px); }
-      to   { transform: translateX(700px); }
+    @keyframes spiritFade {
+      0%, 100% { opacity: 0.04; }
+      50%       { opacity: 0.75; }
     }
 
-    /* ── FLOATING ISLAND ───────────────────────────────────── */
-    .island-wrap {
-      position: absolute;
-      bottom: 155px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 340px;
-      animation: float 6s ease-in-out infinite;
-    }
-    @keyframes float {
-      0%, 100% { transform: translateX(-50%) translateY(0px); }
-      50%       { transform: translateX(-50%) translateY(-10px); }
-    }
-
-    /* ── TREES / FOREGROUND ────────────────────────────────── */
-    .foreground {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 165px;
-      pointer-events: none;
-    }
-
-    /* ── CARD ──────────────────────────────────────────────── */
+    /* ── CARD ───────────────────────────────────────────────── */
     .card {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -53%);
-      width: 294px;
-      background: rgba(10, 20, 50, 0.55);
-      backdrop-filter: blur(18px) saturate(1.6);
-      -webkit-backdrop-filter: blur(18px) saturate(1.6);
-      border: 1px solid rgba(160, 200, 255, 0.25);
+      width: 288px;
+      background: rgba(1, 6, 22, 0.68);
+      backdrop-filter: blur(22px) saturate(1.9);
+      -webkit-backdrop-filter: blur(22px) saturate(1.9);
+      border: 1px solid rgba(0, 200, 255, 0.18);
       border-radius: 28px;
-      padding: 20px 22px 18px;
+      padding: 18px 20px 16px;
       text-align: center;
       box-shadow:
-        0 0 0 1px rgba(80, 140, 255, 0.1),
-        0 8px 48px rgba(0, 0, 0, 0.55),
-        0 0 80px rgba(60, 120, 255, 0.12),
-        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        0 0 0 1px rgba(0,140,255,0.07),
+        0 12px 70px rgba(0,0,0,0.75),
+        0 0 50px rgba(0,100,255,0.07),
+        inset 0 1px 0 rgba(0,220,255,0.1);
       z-index: 10;
     }
-
-    /* circuit corner accents */
     .card::before, .card::after {
       content: '';
       position: absolute;
-      width: 38px;
-      height: 38px;
-      border-color: rgba(100, 180, 255, 0.45);
+      width: 32px; height: 32px;
+      border-color: rgba(0, 210, 255, 0.38);
       border-style: solid;
     }
-    .card::before {
-      top: 10px; left: 10px;
-      border-width: 2px 0 0 2px;
-      border-radius: 6px 0 0 0;
-    }
-    .card::after {
-      bottom: 10px; right: 10px;
-      border-width: 0 2px 2px 0;
-      border-radius: 0 0 6px 0;
-    }
+    .card::before { top:10px; left:10px; border-width:2px 0 0 2px; border-radius:6px 0 0 0; }
+    .card::after  { bottom:10px; right:10px; border-width:0 2px 2px 0; border-radius:0 0 6px 0; }
 
     .badge {
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(0,200,255,0.2);
       border-radius: 20px;
       padding: 4px 11px 4px 8px;
-      margin-bottom: 12px;
+      margin-bottom: 11px;
     }
     .badge-dot {
-      width: 7px; height: 7px;
-      background: #4ade80;
+      width: 6px; height: 6px;
+      background: #00e5ff;
       border-radius: 50%;
-      box-shadow: 0 0 6px #4ade80;
-      animation: pulse 2s ease-in-out infinite;
+      animation: bdPulse 2.2s ease-in-out infinite;
     }
-    @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 4px #4ade80; }
-      50%       { box-shadow: 0 0 10px #4ade80, 0 0 20px #4ade8060; }
+    @keyframes bdPulse {
+      0%,100% { box-shadow: 0 0 4px #00e5ff; }
+      50%      { box-shadow: 0 0 10px #00e5ff, 0 0 22px rgba(0,229,255,0.4); }
     }
     .badge-text {
-      font-size: 9px;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.75);
+      font-size: 8.5px; font-weight: 600;
+      letter-spacing: 0.13em; text-transform: uppercase;
+      color: rgba(255,255,255,0.68);
+      font-family: 'Raleway', sans-serif;
     }
 
     .name {
       font-family: 'Cinzel', serif;
-      font-size: 15px;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      color: #fff;
-      line-height: 1.3;
-      text-shadow: 0 0 20px rgba(120, 180, 255, 0.6);
+      font-size: 14px; font-weight: 700;
+      letter-spacing: 0.06em; color: #fff;
+      text-shadow: 0 0 22px rgba(0,210,255,0.55);
       margin-bottom: 3px;
     }
     .role {
-      font-size: 9.5px;
-      font-weight: 300;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: rgba(180, 210, 255, 0.65);
-      margin-bottom: 14px;
+      font-family: 'Raleway', sans-serif;
+      font-size: 8.5px; font-weight: 300;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: rgba(0,210,255,0.52);
+      margin-bottom: 13px;
     }
 
-    /* ── QR ────────────────────────────────────────────────── */
     .qr-wrap {
       position: relative;
       display: inline-block;
-      padding: 10px;
-      border-radius: 16px;
-      background: rgba(255,255,255,0.97);
+      padding: 9px;
+      border-radius: 14px;
+      background: rgba(246,251,255,0.97);
       box-shadow:
-        0 0 0 1px rgba(100, 180, 255, 0.3),
-        0 0 24px rgba(80, 140, 255, 0.25),
-        0 4px 20px rgba(0,0,0,0.4);
-      margin-bottom: 14px;
+        0 0 0 1px rgba(0,180,255,0.28),
+        0 0 28px rgba(0,150,255,0.22),
+        0 5px 22px rgba(0,0,0,0.5);
+      margin-bottom: 13px;
     }
     .qr-glow {
       position: absolute;
-      inset: -6px;
-      border-radius: 20px;
-      background: transparent;
-      box-shadow: 0 0 20px 4px rgba(80, 160, 255, 0.2);
-      animation: qrGlow 3s ease-in-out infinite alternate;
+      inset: -5px;
+      border-radius: 18px;
       pointer-events: none;
+      animation: qrg 3.5s ease-in-out infinite alternate;
     }
-    @keyframes qrGlow {
-      from { box-shadow: 0 0 16px 2px rgba(80, 160, 255, 0.15); }
-      to   { box-shadow: 0 0 32px 8px rgba(120, 200, 255, 0.35); }
+    @keyframes qrg {
+      from { box-shadow: 0 0 14px 3px rgba(0,180,255,0.13); }
+      to   { box-shadow: 0 0 32px 9px rgba(0,210,255,0.32); }
     }
-    #qrcode canvas, #qrcode img { display: block; border-radius: 6px; }
+    #qrcode canvas, #qrcode img { display:block; border-radius:5px; }
 
     .scan-label {
-      font-size: 8.5px;
-      letter-spacing: 0.22em;
+      font-family: 'Raleway', sans-serif;
+      font-size: 7.5px; letter-spacing: 0.26em;
       text-transform: uppercase;
-      color: rgba(160, 200, 255, 0.6);
+      color: rgba(0,200,255,0.45);
       margin-bottom: 8px;
     }
-
     .linkedin-handle {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 11px;
-      font-weight: 600;
-      color: rgba(200, 225, 255, 0.9);
+      display: inline-flex; align-items: center; gap: 5px;
+      font-family: 'Raleway', sans-serif;
+      font-size: 10.5px; font-weight: 600;
+      color: rgba(200,235,255,0.9);
       letter-spacing: 0.04em;
       padding: 5px 12px;
       border-radius: 20px;
-      background: rgba(10, 100, 200, 0.3);
-      border: 1px solid rgba(80, 160, 255, 0.3);
+      background: rgba(0,70,150,0.32);
+      border: 1px solid rgba(0,150,255,0.28);
     }
-
     .divider {
-      width: 60px;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(120, 180, 255, 0.4), transparent);
-      margin: 12px auto;
+      width: 48px; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0,200,255,0.38), transparent);
+      margin: 11px auto;
     }
-
     .event-label {
-      font-size: 8px;
-      letter-spacing: 0.2em;
+      font-family: 'Raleway', sans-serif;
+      font-size: 7px; letter-spacing: 0.24em;
       text-transform: uppercase;
-      color: rgba(255, 200, 120, 0.7);
+      color: rgba(0,210,255,0.42);
     }
 
-    /* ── FIREFLIES ─────────────────────────────────────────── */
-    .firefly {
+    /* ── FOREGROUND ─────────────────────────────────────────── */
+    .foreground {
       position: absolute;
-      border-radius: 50%;
-      background: radial-gradient(circle, #ffe066 0%, #ffb30080 60%, transparent 100%);
-      animation: flyAround var(--fd, 8s) ease-in-out infinite alternate, fadeFly var(--fd2, 4s) ease-in-out infinite;
+      bottom: 0; left: 0;
+      width: 100%; height: 185px;
       pointer-events: none;
-      z-index: 5;
-    }
-    @keyframes flyAround {
-      0%   { transform: translate(0, 0); }
-      25%  { transform: translate(var(--fx1, 30px), var(--fy1, -20px)); }
-      50%  { transform: translate(var(--fx2, -15px), var(--fy2, 25px)); }
-      75%  { transform: translate(var(--fx3, 20px), var(--fy3, 10px)); }
-      100% { transform: translate(var(--fx4, -25px), var(--fy4, -15px)); }
-    }
-    @keyframes fadeFly {
-      0%, 100% { opacity: 0.1; }
-      50%       { opacity: 0.85; }
-    }
-
-    /* ── CIRCUIT LINES ─────────────────────────────────────── */
-    .circuit-overlay {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      opacity: 0.06;
-      z-index: 1;
+      z-index: 7;
     }
   </style>
 </head>
 <body>
 
-<!-- Sky -->
-<div class="sky"></div>
+<div class="bg"></div>
 
-<!-- Stars -->
-<div class="stars" id="stars"></div>
+<!-- ═══════════════════════════════════════════════════════════
+     CERN PHYSICS SCENE  (SVG, centered ring at 195,410)
+     Ring r=193 → circumference ≈ 1213px
+     ═══════════════════════════════════════════════════════════ -->
+<svg style="position:absolute;inset:0;width:100%;height:100%;z-index:2;"
+     viewBox="0 0 390 844" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- GLOW FILTERS -->
+    <filter id="fcyan"   x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="fmagenta" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="fgold" x="-120%" y="-120%" width="340%" height="340%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="fsoft" x="-200%" y="-200%" width="500%" height="500%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="14"/>
+    </filter>
+    <filter id="fring" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="fbubble" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
 
-<!-- Clouds -->
-<div class="clouds" id="clouds"></div>
+    <!-- GRADIENTS -->
+    <radialGradient id="collisionCenter" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.9"/>
+      <stop offset="25%"  stop-color="#ffe066" stop-opacity="0.6"/>
+      <stop offset="55%"  stop-color="#00e5ff" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="ambientBlue" cx="50%" cy="49%" r="42%">
+      <stop offset="0%"   stop-color="#0066ee" stop-opacity="0.45"/>
+      <stop offset="60%"  stop-color="#002299" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="ambientMag" cx="50%" cy="49%" r="28%">
+      <stop offset="0%"   stop-color="#dd0088" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
 
-<!-- Circuit SVG overlay -->
-<svg class="circuit-overlay" viewBox="0 0 390 844" xmlns="http://www.w3.org/2000/svg">
-  <g stroke="#64b4ff" stroke-width="1" fill="none">
-    <line x1="20" y1="100" x2="120" y2="100"/>
-    <line x1="120" y1="100" x2="120" y2="60"/>
-    <circle cx="120" cy="60" r="3" fill="#64b4ff"/>
-    <line x1="20" y1="130" x2="80" y2="130"/>
-    <line x1="80" y1="130" x2="80" y2="170"/>
-    <line x1="80" y1="170" x2="40" y2="170"/>
-    <circle cx="40" cy="170" r="3" fill="#64b4ff"/>
-    <circle cx="20" cy="100" r="3" fill="#64b4ff"/>
+  <!-- Ambient atmosphere -->
+  <rect x="0" y="0" width="390" height="844" fill="url(#ambientBlue)"/>
+  <rect x="0" y="0" width="390" height="844" fill="url(#ambientMag)"/>
 
-    <line x1="370" y1="200" x2="270" y2="200"/>
-    <line x1="270" y1="200" x2="270" y2="240"/>
-    <circle cx="270" cy="240" r="3" fill="#64b4ff"/>
-    <line x1="370" y1="230" x2="330" y2="230"/>
-    <line x1="330" y1="230" x2="330" y2="270"/>
-    <line x1="330" y1="270" x2="360" y2="270"/>
-    <circle cx="360" cy="270" r="3" fill="#64b4ff"/>
+  <!-- ── BUBBLE CHAMBER TRACES ────────────────────────────── -->
+  <g fill="none" stroke-linecap="round">
 
-    <line x1="10" y1="700" x2="10" y2="620"/>
-    <line x1="10" y1="620" x2="50" y2="620"/>
-    <circle cx="50" cy="620" r="3" fill="#64b4ff"/>
-    <line x1="30" y1="700" x2="30" y2="740"/>
-    <circle cx="30" cy="740" r="3" fill="#64b4ff"/>
+    <!-- long sweeping arcs — barely visible, deep bg -->
+    <path d="M -10,38  Q 95,12  218,52  Q 312,82  400,58"   stroke="#c8f2ff" stroke-width="0.8" opacity="0.16"/>
+    <path d="M 400,119 Q 258,88  132,118 Q 44,140 -10,122"  stroke="#d0f4ff" stroke-width="0.7" opacity="0.14"/>
+    <path d="M -10,287 Q 72,258 183,278 Q 294,300 400,272"  stroke="#b8ecff" stroke-width="0.9" opacity="0.17"/>
+    <path d="M 400,433 Q 275,402 158,422 Q 58,440 -10,416"  stroke="#c0eeff" stroke-width="0.7" opacity="0.13"/>
+    <path d="M -10,604 Q 88,574 204,598 Q 318,622 400,592"  stroke="#aae4ff" stroke-width="0.8" opacity="0.15"/>
+    <path d="M 400,718 Q 262,690 138,714 Q 52,730 -10,708"  stroke="#98deff" stroke-width="0.7" opacity="0.12"/>
+    <path d="M -10,802 Q 122,775 267,798 Q 344,810 400,792"  stroke="#90d8ff" stroke-width="0.6" opacity="0.11"/>
 
-    <line x1="380" y1="680" x2="380" y2="600"/>
-    <line x1="380" y1="600" x2="340" y2="600"/>
-    <circle cx="340" cy="600" r="3" fill="#64b4ff"/>
-    <line x1="360" y1="680" x2="360" y2="720"/>
-    <circle cx="360" cy="720" r="3" fill="#64b4ff"/>
+    <!-- near-vertical high-energy tracks -->
+    <path d="M 38, 0  Q 55,195  44,420 Q 33,638  22,844"  stroke="#d8f4ff" stroke-width="0.9" opacity="0.15"/>
+    <path d="M 347, 0 Q 368,218 354,440 Q 340,660 330,844" stroke="#cef0ff" stroke-width="0.8" opacity="0.13"/>
+    <path d="M 162, 0 Q 174,172 165,368 Q 155,552 144,720"  stroke="#c4eaff" stroke-width="0.7" opacity="0.12"/>
+    <path d="M 232, 0 Q 252,185 241,390 Q 229,592 218,780"  stroke="#bce6ff" stroke-width="0.6" opacity="0.11"/>
+    <path d="M 96,  0 Q 108,140  98,310 Q  88,480  80,630"  stroke="#c8eeff" stroke-width="0.7" opacity="0.13"/>
+    <path d="M 288, 0 Q 304,158 292,340 Q 280,510 268,660"  stroke="#c0e8ff" stroke-width="0.6" opacity="0.12"/>
 
-    <line x1="50" y1="400" x2="50" y2="450"/>
-    <line x1="50" y1="450" x2="20" y2="450"/>
-    <circle cx="20" cy="450" r="3" fill="#64b4ff"/>
-    <line x1="340" y1="400" x2="340" y2="450"/>
-    <line x1="340" y1="450" x2="370" y2="450"/>
-    <circle cx="370" cy="450" r="3" fill="#64b4ff"/>
+    <!-- diagonal arcs, varied angles -->
+    <path d="M 390,22  Q 304,74  248,138 Q 218,184 236,260"  stroke="#b4e8ff" stroke-width="0.8" opacity="0.18"/>
+    <path d="M   0,76  Q  78,138 108,222 Q 124,284  98,354"  stroke="#bceaff" stroke-width="0.8" opacity="0.17"/>
+    <path d="M 174,  0 Q 198,68  176,148 Q 154,228 172,308"  stroke="#b0e4ff" stroke-width="0.7" opacity="0.15"/>
+    <path d="M 390,548 Q 334,498 312,434 Q 298,376 322,318"  stroke="#b4e6ff" stroke-width="0.7" opacity="0.16"/>
+    <path d="M   0,536 Q  60,486  76,418 Q  90,358  62,302"  stroke="#bce8ff" stroke-width="0.8" opacity="0.16"/>
+    <path d="M  22,660 Q  78,612  92,548 Q 104,492  78,428"  stroke="#a8e0ff" stroke-width="0.6" opacity="0.13"/>
+    <path d="M 368,660 Q 314,608 298,542 Q 282,476 310,412"  stroke="#b0e4ff" stroke-width="0.6" opacity="0.13"/>
+    <path d="M 390,214 Q 340,268 308,338 Q 282,398 302,462"  stroke="#a8e0ff" stroke-width="0.7" opacity="0.14"/>
+    <path d="M   0,214 Q  52,268  82,340 Q 108,402  86,468"  stroke="#b0e4ff" stroke-width="0.7" opacity="0.14"/>
+
+    <!-- s-curves -->
+    <path d="M  14,488 C  52,464  88,500  76,538 C  64,576  22,584  12,620"
+      stroke="#a8deff" stroke-width="0.7" opacity="0.15"/>
+    <path d="M 376,138 C 340,112 304,148 316,188 C 328,228 372,238 382,278"
+      stroke="#b4e8ff" stroke-width="0.7" opacity="0.15"/>
+    <path d="M  18,172 C  58,148  96,186  82,226 C  68,266  24,274  14,314"
+      stroke="#a0dcff" stroke-width="0.6" opacity="0.13"/>
+    <path d="M 372,668 C 334,644 296,682 310,722 C 324,762 368,768 378,808"
+      stroke="#a8e0ff" stroke-width="0.6" opacity="0.12"/>
+
+    <!-- positron/antiparticle tint (magenta, curls opposite way) -->
+    <path d="M   0,178 Q  62,156 112,182 Q 164,208 188,198"  stroke="#ffc8dd" stroke-width="0.8" opacity="0.16"/>
+    <path d="M 390,362 Q 312,338 256,358 Q 204,378 182,365"  stroke="#ffb8d8" stroke-width="0.7" opacity="0.14"/>
+    <path d="M 128,844 Q 152,712 136,608 Q 120,506 150,424"  stroke="#ffc4da" stroke-width="0.7" opacity="0.13"/>
+    <path d="M 262,844 Q 242,720 258,614 Q 274,508 248,422"  stroke="#ffbbd6" stroke-width="0.6" opacity="0.12"/>
+    <path d="M   0,724 Q  68,700 118,722 Q 162,742 178,730"  stroke="#ffc0d8" stroke-width="0.7" opacity="0.13"/>
+
+    <!-- electron spirals — small, dim -->
+    <path d="M 304,62
+      C 338,40 364,66 356,90
+      C 348,114 322,118 314,102
+      C 306,88 312,68 318,66"
+      stroke="#88c8f0" stroke-width="0.85" opacity="0.22"/>
+    <path d="M 44,478
+      C 74,456 98,480  92,504
+      C 86,528 60,532  52,518
+      C 44,504 48,482  54,480"
+      stroke="#88c8f0" stroke-width="0.8" opacity="0.20"/>
+    <path d="M 348,582
+      C 374,558 396,584 388,608
+      C 380,632 354,634 348,618
+      C 342,602 346,584 352,582"
+      stroke="#ffaac8" stroke-width="0.75" opacity="0.19"/>
+    <path d="M 66,134
+      C 84,120 100,138  96,154
+      C 92,170  74,172  68,160
+      C 62,150  66,136  70,134"
+      stroke="#88c4ee" stroke-width="0.75" opacity="0.18"/>
+    <path d="M 184,738
+      C 210,716 234,740 226,764
+      C 218,788 192,790 186,774
+      C 180,758 184,740 188,738"
+      stroke="#88c8f0" stroke-width="0.75" opacity="0.17"/>
+    <path d="M 28,354
+      C 50,334  70,356  64,376
+      C 58,396  36,398  28,384
+      C 20,370  24,356  30,354"
+      stroke="#ffaac8" stroke-width="0.7" opacity="0.17"/>
+
+    <!-- V-events (neutral → two charged) -->
+    <path d="M 218,152 Q 172,216 136,282" stroke="#c0eaff" stroke-width="0.9" opacity="0.20"/>
+    <path d="M 218,152 Q 258,218 292,286" stroke="#ffc4dc" stroke-width="0.8" opacity="0.18"/>
+    <circle cx="218" cy="152" r="1.8" fill="#cce8ff" opacity="0.30"/>
+    <path d="M 142,564 Q  98,628  68,694" stroke="#b4e4ff" stroke-width="0.8" opacity="0.18"/>
+    <path d="M 142,564 Q 186,630 218,696" stroke="#ffbbd4" stroke-width="0.8" opacity="0.17"/>
+    <circle cx="142" cy="564" r="1.6" fill="#cce8ff" opacity="0.28"/>
+    <path d="M 318,748 Q 274,796 248,844" stroke="#b0e2ff" stroke-width="0.7" opacity="0.16"/>
+    <path d="M 318,748 Q 358,796 384,844" stroke="#ffbbd4" stroke-width="0.7" opacity="0.15"/>
+    <circle cx="318" cy="748" r="1.4" fill="#cce8ff" opacity="0.25"/>
+
+    <!-- kink / scattering events -->
+    <path d="M -10,234 Q  74,220 128,232" stroke="#bce8ff" stroke-width="0.8" opacity="0.18"/>
+    <path d="M 128,232 Q 208,248 302,228 Q 360,218 400,224" stroke="#bce8ff" stroke-width="0.8" opacity="0.18"/>
+    <circle cx="128" cy="232" r="1.5" fill="#cce8ff" opacity="0.28"/>
+    <path d="M 400,674 Q 308,660 252,672" stroke="#b0e4ff" stroke-width="0.7" opacity="0.16"/>
+    <path d="M 252,672 Q 178,686  92,668 Q 38,658 -10,664" stroke="#b0e4ff" stroke-width="0.7" opacity="0.16"/>
+    <circle cx="252" cy="672" r="1.4" fill="#cce8ff" opacity="0.25"/>
+    <path d="M 390,344 Q 314,330 268,342" stroke="#b8e6ff" stroke-width="0.7" opacity="0.16"/>
+    <path d="M 268,342 Q 194,358 112,338 Q 54,324 -10,332" stroke="#b8e6ff" stroke-width="0.7" opacity="0.16"/>
+    <circle cx="268" cy="342" r="1.4" fill="#cce8ff" opacity="0.25"/>
+
+    <!-- fork / pair-production vertices -->
+    <path d="M   0,388 Q  62,368 114,380" stroke="#c4ecff" stroke-width="0.8" opacity="0.17"/>
+    <path d="M 114,380 Q 178,356 244,340"  stroke="#c4ecff" stroke-width="0.7" opacity="0.16"/>
+    <path d="M 114,380 Q 166,416 212,444"  stroke="#ffbcd6" stroke-width="0.7" opacity="0.15"/>
+    <circle cx="114" cy="380" r="1.6" fill="#cce8ff" opacity="0.27"/>
+    <path d="M 390,106 Q 316,122 272,116" stroke="#beeaff" stroke-width="0.8" opacity="0.17"/>
+    <path d="M 272,116 Q 204,104 144,120"  stroke="#beeaff" stroke-width="0.7" opacity="0.15"/>
+    <path d="M 272,116 Q 244,154 214,190"  stroke="#ffb8d4" stroke-width="0.7" opacity="0.14"/>
+    <circle cx="272" cy="116" r="1.5" fill="#cce8ff" opacity="0.25"/>
+
+    <!-- scattered short fillers -->
+    <path d="M 248,44  Q 298,28 336,46"   stroke="#b8e8ff" stroke-width="0.6" opacity="0.15"/>
+    <path d="M  28,58  Q  68,42  96,60"   stroke="#b0e4ff" stroke-width="0.6" opacity="0.14"/>
+    <path d="M  22,790 Q  84,772 138,790" stroke="#a4d8ff" stroke-width="0.6" opacity="0.13"/>
+    <path d="M 254,794 Q 308,778 354,796" stroke="#a4d8ff" stroke-width="0.6" opacity="0.13"/>
+    <path d="M 156,828 Q 224,812 282,828" stroke="#98d4ff" stroke-width="0.5" opacity="0.11"/>
+    <path d="M  14,468 Q  54,452  84,470" stroke="#a8dcff" stroke-width="0.6" opacity="0.13"/>
+    <path d="M 306,468 Q 346,452 378,470" stroke="#a8dcff" stroke-width="0.6" opacity="0.12"/>
+    <path d="M  58,266 Q 108,248 148,268" stroke="#b0e2ff" stroke-width="0.6" opacity="0.13"/>
+    <path d="M 242,266 Q 294,248 338,268" stroke="#b0e2ff" stroke-width="0.6" opacity="0.12"/>
   </g>
+
+  <!-- ── ATLAS DETECTOR MANDALA ────────────────────────────── -->
+  <!-- All concentric rings centered at (195, 410) -->
+
+  <!-- Outermost: Muon spectrometer chambers, 8-fold segmented -->
+  <g opacity="0.40" stroke="#00ccee" fill="none" stroke-linecap="round">
+    <circle cx="195" cy="410" r="174" stroke-width="9"  stroke-dasharray="62 14"/>
+    <circle cx="195" cy="410" r="163" stroke-width="4"  stroke-dasharray="50 26"/>
+    <circle cx="195" cy="410" r="153" stroke-width="2"  stroke-dasharray="42 30"/>
+  </g>
+
+  <!-- Detector radial spokes (16-fold symmetry) -->
+  <g opacity="0.28" stroke="#00aacc" stroke-width="1" fill="none">
+    <!-- 8 primary axes -->
+    <line x1="195" y1="236" x2="195" y2="584"/>
+    <line x1="22"  y1="410" x2="368" y2="410"/>
+    <line x1="72"  y1="287" x2="318" y2="533"/>
+    <line x1="318" y1="287" x2="72"  y2="533"/>
+    <!-- 8 secondary axes at 22.5° -->
+    <line x1="102" y1="243" x2="288" y2="577"/>
+    <line x1="288" y1="243" x2="102" y2="577"/>
+    <line x1="25"  y1="323" x2="365" y2="497"/>
+    <line x1="365" y1="323" x2="25"  y2="497"/>
+  </g>
+
+  <!-- Hadronic calorimeter (tile-cal) — sectored rings -->
+  <g opacity="0.50" stroke="#0099cc" fill="none">
+    <circle cx="195" cy="410" r="133" stroke-width="7"  stroke-dasharray="48 12"/>
+    <circle cx="195" cy="410" r="122" stroke-width="3"  stroke-dasharray="38 18"/>
+    <circle cx="195" cy="410" r="111" stroke-width="1.5" stroke-dasharray="30 22"/>
+    <circle cx="195" cy="410" r="101" stroke-width="1"  stroke-dasharray="26 26"/>
+  </g>
+
+  <!-- EM calorimeter (liquid argon accordion) -->
+  <g opacity="0.60" stroke="#00bbdd" fill="none">
+    <circle cx="195" cy="410" r="82" stroke-width="5"  stroke-dasharray="28 12"/>
+    <circle cx="195" cy="410" r="74" stroke-width="2.5" stroke-dasharray="22 14"/>
+    <circle cx="195" cy="410" r="66" stroke-width="1.5" stroke-dasharray="18 16"/>
+  </g>
+
+  <!-- Inner tracker / solenoid -->
+  <g opacity="0.75" stroke="#00ddee" fill="none">
+    <circle cx="195" cy="410" r="53" stroke-width="3.5" stroke-dasharray="16 10"/>
+    <circle cx="195" cy="410" r="46" stroke-width="1.5" stroke-dasharray="12 11"/>
+    <circle cx="195" cy="410" r="38" stroke-width="1.2" stroke-dasharray="9 11"/>
+    <circle cx="195" cy="410" r="30" stroke-width="1"/>
+    <circle cx="195" cy="410" r="22" stroke-width="0.8"/>
+    <circle cx="195" cy="410" r="14" stroke-width="0.6"/>
+  </g>
+
+  <!-- Slowly rotating outer detector wheel (Ghibli magic touch) -->
+  <g opacity="0.30" stroke="#00ccff" fill="none">
+    <circle cx="195" cy="410" r="148" stroke-width="14" stroke-dasharray="34 14">
+      <animateTransform attributeName="transform" type="rotate"
+        from="0 195 410" to="360 195 410" dur="90s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  <g opacity="0.28" stroke="#ff1188" fill="none">
+    <circle cx="195" cy="410" r="88" stroke-width="9" stroke-dasharray="22 18">
+      <animateTransform attributeName="transform" type="rotate"
+        from="0 195 410" to="-360 195 410" dur="60s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- ── LHC MAIN RING (r=193, fits 390px width exactly) ──── -->
+  <!-- Tunnel casing -->
+  <circle cx="195" cy="410" r="196" stroke="#0066aa" stroke-width="6" fill="none" opacity="0.85"/>
+  <circle cx="195" cy="410" r="190" stroke="#004488" stroke-width="2.5" fill="none" opacity="0.60"/>
+
+  <!-- Ring ambient glow -->
+  <circle cx="195" cy="410" r="193" stroke="#00ddff" stroke-width="3"
+    fill="none" opacity="0.55" filter="url(#fsoft)"/>
+
+  <!-- ── BEAM 1: clockwise cyan proton beam ──────────────────
+       Circumference ≈ 1213px  → dasharray "18 1195"        -->
+  <!-- Wide glow trail -->
+  <circle cx="195" cy="410" r="193"
+    stroke="#00e5ff" stroke-width="14" fill="none" opacity="0.30"
+    stroke-dasharray="90 1123" stroke-linecap="round">
+    <animateTransform attributeName="transform" type="rotate"
+      from="0 195 410" to="360 195 410" dur="2.6s" repeatCount="indefinite"/>
+  </circle>
+  <!-- Narrow glow trail -->
+  <circle cx="195" cy="410" r="193"
+    stroke="#00e5ff" stroke-width="5" fill="none" opacity="0.70"
+    stroke-dasharray="40 1173" stroke-linecap="round">
+    <animateTransform attributeName="transform" type="rotate"
+      from="0 195 410" to="360 195 410" dur="2.6s" repeatCount="indefinite"/>
+  </circle>
+  <!-- Bright core particle -->
+  <circle cx="195" cy="410" r="193"
+    stroke="#eefaff" stroke-width="3" fill="none" opacity="1"
+    stroke-dasharray="12 1201" stroke-linecap="round"
+    filter="url(#fcyan)">
+    <animateTransform attributeName="transform" type="rotate"
+      from="0 195 410" to="360 195 410" dur="2.6s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- ── BEAM 2: counter-clockwise magenta anti-proton beam ── -->
+  <circle cx="195" cy="410" r="193"
+    stroke="#ff2090" stroke-width="14" fill="none" opacity="0.28"
+    stroke-dasharray="90 1123" stroke-linecap="round">
+    <animateTransform attributeName="transform" type="rotate"
+      from="180 195 410" to="-180 195 410" dur="3.0s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="195" cy="410" r="193"
+    stroke="#ff2090" stroke-width="5" fill="none" opacity="0.68"
+    stroke-dasharray="40 1173" stroke-linecap="round">
+    <animateTransform attributeName="transform" type="rotate"
+      from="180 195 410" to="-180 195 410" dur="3.0s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="195" cy="410" r="193"
+    stroke="#ffccee" stroke-width="3" fill="none" opacity="1"
+    stroke-dasharray="12 1201" stroke-linecap="round"
+    filter="url(#fmagenta)">
+    <animateTransform attributeName="transform" type="rotate"
+      from="180 195 410" to="-180 195 410" dur="3.0s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- ── PARTICLE COLLISION TRACKS (origin: 195, 410) ────────
+       Inspired by real CMS/ATLAS collision event displays.
+       Curved = magnetic deflection. Dashed = neutral.        -->
+
+  <!-- Cyan tracks: electrons / muons (curve rightward) -->
+  <g stroke="#00e5ff" fill="none" stroke-linecap="round" filter="url(#fcyan)">
+    <path d="M195,410 Q225,358 258,278" stroke-width="2.0" opacity="0.95"/>
+    <path d="M195,410 Q205,340 200,240" stroke-width="2.2" opacity="1.0"/>
+    <path d="M195,410 Q280,408 345,390" stroke-width="1.6" opacity="0.85"/>
+    <path d="M195,410 Q170,340 148,260" stroke-width="1.6" opacity="0.85"/>
+    <!-- Spiral (low-energy particle stops) -->
+    <path d="M195,410 Q222,390 232,368 Q242,346 234,330 Q226,318 213,322 Q204,328 207,340"
+          stroke-width="1.4" opacity="0.75"/>
+  </g>
+
+  <!-- Magenta tracks: positrons / antimuons (curve leftward) -->
+  <g stroke="#ff2090" fill="none" stroke-linecap="round" filter="url(#fmagenta)">
+    <path d="M195,410 Q155,395  80,378" stroke-width="2.0" opacity="0.95"/>
+    <path d="M195,410 Q165,460 140,540" stroke-width="1.8" opacity="0.90"/>
+    <path d="M195,410 Q245,465 278,548" stroke-width="1.8" opacity="0.90"/>
+    <path d="M195,410 Q220,455 248,530" stroke-width="1.4" opacity="0.75"/>
+    <!-- Spiral -->
+    <path d="M195,410 Q172,422 166,444 Q160,466 172,476 Q184,486 194,478 Q200,469 196,460"
+          stroke-width="1.4" opacity="0.75"/>
+  </g>
+
+  <!-- Gold dashed: neutral particles / photons -->
+  <g stroke="#ffd166" fill="none" stroke-linecap="round" filter="url(#fgold)" opacity="0.92">
+    <path d="M195,410 L268,342" stroke-width="1.6" stroke-dasharray="5 4"/>
+    <path d="M195,410 L122,342" stroke-width="1.4" stroke-dasharray="4 5"/>
+    <path d="M195,410 L195,298" stroke-width="1.8" stroke-dasharray="6 4"/>
+    <path d="M195,410 L148,504" stroke-width="1.4" stroke-dasharray="4 5"/>
+    <path d="M195,410 L310,362" stroke-width="1.2" stroke-dasharray="3 5"/>
+  </g>
+
+  <!-- Green: hadronic jets (bundles of 3 tracks) -->
+  <g stroke="#00ff88" fill="none" stroke-linecap="round" opacity="0.75">
+    <path d="M195,410 Q215,372 258,310" stroke-width="1.6"/>
+    <path d="M195,410 Q220,370 265,305" stroke-width="1.0"/>
+    <path d="M195,410 Q212,375 252,316" stroke-width="1.0"/>
+    <!-- Opposite jet -->
+    <path d="M195,410 Q172,445 132,500" stroke-width="1.6"/>
+    <path d="M195,410 Q168,448 126,506" stroke-width="1.0"/>
+    <path d="M195,410 Q175,442 137,495" stroke-width="1.0"/>
+  </g>
+
+  <!-- Secondary-vertex tracks (B-hadron decay) -->
+  <g stroke="#88ddff" fill="none" stroke-linecap="round" opacity="0.70">
+    <path d="M230,375 Q250,340 275,295" stroke-width="1.2"/>
+    <path d="M230,375 Q260,380 310,370" stroke-width="1.0"/>
+    <circle cx="230" cy="375" r="3" fill="#88ddff" opacity="0.9"/>
+  </g>
+  <g stroke="#ff99cc" fill="none" stroke-linecap="round" opacity="0.70">
+    <path d="M160,445 Q138,475 108,515" stroke-width="1.2"/>
+    <path d="M160,445 Q145,465 112,480" stroke-width="1.0"/>
+    <circle cx="160" cy="445" r="3" fill="#ff99cc" opacity="0.9"/>
+  </g>
+
+  <!-- ── COLLISION POINT ─────────────────────────────────────── -->
+  <circle cx="195" cy="410" r="36" fill="url(#collisionCenter)" filter="url(#fsoft)" opacity="1.0"/>
+  <!-- Pulsing bright core -->
+  <circle cx="195" cy="410" r="3.5" fill="#fff" filter="url(#fcyan)">
+    <animate attributeName="r"       values="2.5;5.5;2.5"   dur="2.2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.8;1.0;0.8"   dur="2.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- Ambient glow rings inside the detector -->
+  <circle cx="195" cy="410" r="58" stroke="#00e5ff" stroke-width="1" fill="none" opacity="0.22" filter="url(#fsoft)"/>
+  <circle cx="195" cy="410" r="98" stroke="#00e5ff" stroke-width="1" fill="none" opacity="0.15" filter="url(#fsoft)"/>
 </svg>
 
-<!-- Floating island SVG -->
-<div class="island-wrap">
-  <svg viewBox="0 0 340 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
-    <defs>
-      <linearGradient id="groundGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#2d5a1b"/>
-        <stop offset="40%" stop-color="#4a7a28"/>
-        <stop offset="100%" stop-color="#1a2e0f"/>
-      </linearGradient>
-      <linearGradient id="rockGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#5a4a3a"/>
-        <stop offset="100%" stop-color="#2a1e12"/>
-      </linearGradient>
-      <filter id="islandGlow">
-        <feGaussianBlur stdDeviation="3" result="blur"/>
-        <feComposite in="SourceGraphic" in2="blur" operator="over"/>
-      </filter>
-    </defs>
-    <!-- Rock base -->
-    <ellipse cx="170" cy="90" rx="155" ry="30" fill="url(#rockGrad)" opacity="0.9"/>
-    <ellipse cx="170" cy="82" rx="145" ry="22" fill="#3a2a1a"/>
-    <!-- Ground top -->
-    <ellipse cx="170" cy="72" rx="150" ry="24" fill="url(#groundGrad)"/>
-    <!-- Grass detail -->
-    <ellipse cx="170" cy="66" rx="148" ry="18" fill="#3a6b20"/>
-    <ellipse cx="170" cy="62" rx="144" ry="14" fill="#4a8828"/>
-    <!-- Root tendrils -->
-    <path d="M 100 90 Q 90 110 70 115" stroke="#2a1e12" stroke-width="5" fill="none" stroke-linecap="round"/>
-    <path d="M 130 95 Q 125 112 105 118" stroke="#2a1e12" stroke-width="4" fill="none" stroke-linecap="round"/>
-    <path d="M 240 90 Q 250 110 270 116" stroke="#2a1e12" stroke-width="5" fill="none" stroke-linecap="round"/>
-    <path d="M 210 95 Q 215 112 235 119" stroke="#2a1e12" stroke-width="4" fill="none" stroke-linecap="round"/>
-    <path d="M 170 96 Q 170 115 170 120" stroke="#2a1e12" stroke-width="6" fill="none" stroke-linecap="round"/>
-    <!-- Trees left -->
-    <rect x="52" y="30" width="7" height="34" rx="2" fill="#2d1a0a"/>
-    <ellipse cx="55" cy="30" rx="16" ry="19" fill="#1a4a10"/>
-    <ellipse cx="55" cy="24" rx="12" ry="15" fill="#236016"/>
-    <!-- Trees right -->
-    <rect x="280" y="32" width="7" height="32" rx="2" fill="#2d1a0a"/>
-    <ellipse cx="283" cy="32" rx="16" ry="18" fill="#1a4a10"/>
-    <ellipse cx="283" cy="26" rx="12" ry="14" fill="#236016"/>
-    <!-- Small tree right cluster -->
-    <rect x="255" y="40" width="5" height="24" rx="2" fill="#2d1a0a"/>
-    <ellipse cx="257" cy="40" rx="11" ry="13" fill="#1e5214"/>
-    <!-- Small tree left cluster -->
-    <rect x="72" y="42" width="5" height="22" rx="2" fill="#2d1a0a"/>
-    <ellipse cx="74" cy="42" rx="11" ry="12" fill="#1e5214"/>
-    <!-- Glowing crystal / tech artifact -->
-    <polygon points="170,8 180,30 170,26 160,30" fill="#64c8ff" opacity="0.9"/>
-    <polygon points="170,8 180,30 170,20 160,30" fill="#a0e0ff" opacity="0.7"/>
-    <line x1="170" y1="26" x2="170" y2="58" stroke="#64c8ff" stroke-width="1.5" opacity="0.5"/>
-    <ellipse cx="170" cy="60" rx="8" ry="3" fill="#64c8ff" opacity="0.25"/>
-    <!-- Glow -->
-    <ellipse cx="170" cy="10" rx="12" ry="12" fill="#64c8ff" opacity="0.12" filter="url(#islandGlow)"/>
-    <!-- Small glowing orbs -->
-    <circle cx="90" cy="50" r="2.5" fill="#ffe066" opacity="0.8"/>
-    <circle cx="250" cy="48" r="2" fill="#ffe066" opacity="0.7"/>
-    <circle cx="140" cy="55" r="1.8" fill="#ffe066" opacity="0.6"/>
-    <!-- Circuit etch on rock -->
-    <line x1="125" y1="88" x2="155" y2="88" stroke="#64b4ff" stroke-width="0.8" opacity="0.5"/>
-    <line x1="155" y1="88" x2="155" y2="80" stroke="#64b4ff" stroke-width="0.8" opacity="0.5"/>
-    <line x1="185" y1="88" x2="215" y2="88" stroke="#64b4ff" stroke-width="0.8" opacity="0.5"/>
-    <line x1="215" y1="88" x2="215" y2="80" stroke="#64b4ff" stroke-width="0.8" opacity="0.5"/>
-  </svg>
-</div>
+<!-- Spirit orbs layer -->
+<div id="spirits" style="position:absolute;inset:0;z-index:5;pointer-events:none;"></div>
 
-<!-- Card -->
+<!-- ── CARD ──────────────────────────────────────────────────── -->
 <div class="card">
-  <div class="card-corner-tl"></div>
   <div class="badge">
     <div class="badge-dot"></div>
-    <span class="badge-text">Google Tech Talk</span>
+    <span class="badge-text">Google TechTank</span>
   </div>
-  <div class="name">Jarosław Pawełczyk</div>
+  <div class="name">Jarek Pawelczyk</div>
   <div class="role">Software Engineer</div>
   <div class="qr-wrap">
     <div class="qr-glow"></div>
@@ -425,7 +576,7 @@
   </div>
   <div class="scan-label">Scan to connect</div>
   <div class="linkedin-handle">
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="#60a5fa">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="#38bdf8">
       <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
     </svg>
     /jaroslawpawelczyk
@@ -434,136 +585,144 @@
   <div class="event-label">Connect · Collaborate · Create</div>
 </div>
 
-<!-- Foreground trees SVG -->
+<!-- ── FOREGROUND: Jura mountains + CERN campus (Ghibli) ────── -->
 <div class="foreground">
-  <svg viewBox="0 0 390 165" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
+  <svg viewBox="0 0 390 185" xmlns="http://www.w3.org/2000/svg"
+       style="width:100%;height:100%;display:block;">
     <defs>
-      <linearGradient id="fgGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#0d2010"/>
-        <stop offset="100%" stop-color="#050c07"/>
+      <linearGradient id="mtGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#1a3450"/>
+        <stop offset="100%" stop-color="#0e2035"/>
       </linearGradient>
+      <linearGradient id="mtGrad2" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#112840"/>
+        <stop offset="100%" stop-color="#091828"/>
+      </linearGradient>
+      <linearGradient id="groundGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#0d2035"/>
+        <stop offset="100%" stop-color="#070f1c"/>
+      </linearGradient>
+      <filter id="fmist" x="-10%" y="-10%" width="120%" height="120%">
+        <feGaussianBlur stdDeviation="3"/>
+      </filter>
     </defs>
-    <!-- Ground fill -->
-    <path d="M0 100 Q195 70 390 100 L390 165 L0 165 Z" fill="url(#fgGrad)"/>
-    <!-- Tree silhouettes -->
-    <!-- Far left -->
-    <rect x="10" y="45" width="9" height="60" rx="3" fill="#0a1a0c"/>
-    <ellipse cx="14" cy="45" rx="22" ry="28" fill="#0d1e0f"/>
-    <ellipse cx="14" cy="30" rx="16" ry="22" fill="#0f2212"/>
-    <ellipse cx="14" cy="16" rx="10" ry="16" fill="#112614"/>
-    <!-- Left 2 -->
-    <rect x="45" y="55" width="7" height="50" rx="3" fill="#0a1a0c"/>
-    <ellipse cx="48" cy="55" rx="18" ry="24" fill="#0d1e0f"/>
-    <ellipse cx="48" cy="40" rx="13" ry="19" fill="#0f2212"/>
-    <!-- Left small -->
-    <rect x="68" y="70" width="5" height="35" rx="2" fill="#0a1a0c"/>
-    <ellipse cx="70" cy="70" rx="12" ry="16" fill="#0d2010"/>
-    <!-- Right far -->
-    <rect x="371" y="42" width="9" height="65" rx="3" fill="#0a1a0c"/>
-    <ellipse cx="375" cy="42" rx="22" ry="30" fill="#0d1e0f"/>
-    <ellipse cx="375" cy="26" rx="16" ry="22" fill="#0f2212"/>
-    <ellipse cx="375" cy="12" rx="10" ry="14" fill="#112614"/>
-    <!-- Right 2 -->
-    <rect x="340" y="58" width="7" height="48" rx="3" fill="#0a1a0c"/>
-    <ellipse cx="343" cy="58" rx="18" ry="22" fill="#0d1e0f"/>
-    <ellipse cx="343" cy="44" rx="13" ry="18" fill="#0f2212"/>
-    <!-- Right small -->
-    <rect x="315" y="72" width="5" height="35" rx="2" fill="#0a1a0c"/>
-    <ellipse cx="317" cy="72" rx="12" ry="15" fill="#0d2010"/>
-    <!-- Firefly glow spots in trees -->
-    <circle cx="30" cy="50" r="3" fill="#ffe066" opacity="0.4"/>
-    <circle cx="60" cy="62" r="2" fill="#ffe066" opacity="0.35"/>
-    <circle cx="355" cy="55" r="3" fill="#ffe066" opacity="0.4"/>
-    <circle cx="325" cy="70" r="2" fill="#ffe066" opacity="0.3"/>
+
+    <!-- Jura mountains (far) -->
+    <path d="M0,98 L28,68 L55,82 L85,52 L115,70 L148,42 L178,60 L210,38
+             L242,56 L272,44 L302,62 L332,48 L362,66 L390,52 L390,185 L0,185 Z"
+      fill="url(#mtGrad)" opacity="1"/>
+
+    <!-- Nearer ridge -->
+    <path d="M0,115 L48,92 L96,106 L155,85 L210,98 L268,82 L325,96 L390,84
+             L390,185 L0,185 Z"
+      fill="url(#mtGrad2)" opacity="1"/>
+
+    <!-- Ground -->
+    <path d="M0,132 Q98,115 195,120 Q292,115 390,132 L390,185 L0,185 Z"
+      fill="url(#groundGrad)"/>
+
+    <!-- Horizon mist (Ghibli atmospheric depth) -->
+    <rect x="0" y="100" width="390" height="35" fill="#0a3050" opacity="0.55" filter="url(#fmist)"/>
+
+    <!-- CERN Globe of Science and Innovation (left) -->
+    <ellipse cx="75" cy="110" rx="21" ry="21" fill="#1a3050"/>
+    <ellipse cx="86" cy="114" rx="17" ry="17" fill="#142840"/>
+    <ellipse cx="80" cy="110" rx="21" ry="7"
+      stroke="#2a5080" stroke-width="1" fill="none" opacity="0.8"/>
+    <line x1="80" y1="89" x2="80" y2="131"
+      stroke="#2a5080" stroke-width="1" opacity="0.7"/>
+
+    <!-- CERN buildings (silhouettes) -->
+    <rect x="28"  y="118" width="28" height="18" rx="1" fill="#162e4a"/>
+    <rect x="60"  y="122" width="16" height="14" rx="1" fill="#162e4a"/>
+    <rect x="124" y="114" width="34" height="24" rx="1" fill="#132840"/>
+    <rect x="140" y="106" width="12" height="32" rx="1" fill="#132840"/>
+    <!-- CMS building dome (right) -->
+    <rect x="272" y="112" width="40" height="24" rx="2" fill="#122540"/>
+    <ellipse cx="292" cy="112" rx="20" ry="9" fill="#1a3050"/>
+    <rect x="322" y="116" width="24" height="20" rx="1" fill="#142840"/>
+
+    <!-- Comms tower -->
+    <line x1="150" y1="106" x2="150" y2="84" stroke="#1a3860" stroke-width="2.5"/>
+    <line x1="146" y1="97"  x2="154" y2="97"  stroke="#1a3860" stroke-width="1.5"/>
+    <line x1="148" y1="90"  x2="152" y2="90"  stroke="#1a3860" stroke-width="1"/>
+    <circle cx="150" cy="83" r="2.5" fill="#00e5ff" opacity="0.9"/>
+    <circle cx="150" cy="83" r="6"   fill="#00e5ff" opacity="0.25" filter="url(#fmist)"/>
+
+    <!-- Trees (Ghibli style) — left -->
+    <rect x="4"  y="92"  width="7" height="46" rx="2" fill="#0e2030"/>
+    <ellipse cx="7"  cy="92"  rx="20" ry="25" fill="#162e42"/>
+    <ellipse cx="7"  cy="75"  rx="15" ry="20" fill="#1a3548"/>
+    <rect x="24" y="99"  width="6" height="39" rx="2" fill="#0e2030"/>
+    <ellipse cx="27" cy="99"  rx="16" ry="20" fill="#162e42"/>
+    <ellipse cx="27" cy="84"  rx="12" ry="16" fill="#1a3548"/>
+
+    <!-- Trees — right -->
+    <rect x="379" y="89"  width="7" height="49" rx="2" fill="#0e2030"/>
+    <ellipse cx="382" cy="89"  rx="20" ry="26" fill="#162e42"/>
+    <ellipse cx="382" cy="72"  rx="15" ry="20" fill="#1a3548"/>
+    <rect x="358" y="96"  width="6" height="41" rx="2" fill="#0e2030"/>
+    <ellipse cx="361" cy="96"  rx="16" ry="21" fill="#162e42"/>
+    <ellipse cx="361" cy="82"  rx="12" ry="16" fill="#1a3548"/>
+
+    <!-- Mid-ground trees -->
+    <rect x="174" y="104" width="5" height="32" rx="2" fill="#0e2030"/>
+    <ellipse cx="176" cy="104" rx="12" ry="16" fill="#152a40"/>
+    <rect x="210" y="106" width="4" height="30" rx="2" fill="#0e2030"/>
+    <ellipse cx="212" cy="106" rx="10" ry="14" fill="#152a40"/>
+
+    <!-- CERN underground glow (physics beneath our feet) -->
+    <ellipse cx="195" cy="136" rx="160" ry="22" fill="#0066cc" opacity="0.22" filter="url(#fmist)"/>
+    <ellipse cx="195" cy="132" rx="100" ry="12" fill="#00aaff" opacity="0.14" filter="url(#fmist)"/>
+
+    <!-- Warm window lights — Ghibli magic -->
+    <rect x="38"  y="124" width="4" height="3" rx="0.5" fill="#ffcc55" opacity="0.95"/>
+    <rect x="46"  y="122" width="3" height="3" rx="0.5" fill="#ffcc55" opacity="0.80"/>
+    <rect x="130" y="118" width="4" height="3" rx="0.5" fill="#ffcc55" opacity="0.90"/>
+    <rect x="138" y="116" width="3" height="3" rx="0.5" fill="#ffcc55" opacity="0.75"/>
+    <rect x="280" y="120" width="4" height="3" rx="0.5" fill="#ffcc55" opacity="0.90"/>
+    <rect x="290" y="118" width="3" height="3" rx="0.5" fill="#ffcc55" opacity="0.78"/>
+    <rect x="334" y="121" width="4" height="3" rx="0.5" fill="#ffcc55" opacity="0.85"/>
+    <rect x="342" y="119" width="2" height="2" rx="0.5" fill="#ffdd88" opacity="0.70"/>
   </svg>
 </div>
 
 <script>
-  // ── QR CODE ─────────────────────────────────────────────────
+  // ── QR CODE ──────────────────────────────────────────────────
   new QRCode(document.getElementById('qrcode'), {
     text: 'https://www.linkedin.com/in/jaroslawpawelczyk/',
-    width: 186,
-    height: 186,
-    colorDark: '#0a0f1e',
-    colorLight: '#f8faff',
+    width: 182,
+    height: 182,
+    colorDark:  '#010a1e',
+    colorLight: '#f5faff',
     correctLevel: QRCode.CorrectLevel.H
   });
 
-  // ── STARS ───────────────────────────────────────────────────
-  const starsEl = document.getElementById('stars');
-  for (let i = 0; i < 80; i++) {
-    const s = document.createElement('div');
-    s.className = 'star';
-    const size = Math.random() * 2 + 0.5;
-    s.style.cssText = `
-      width:${size}px; height:${size}px;
-      top:${Math.random() * 55}%;
-      left:${Math.random() * 100}%;
-      --d:${2 + Math.random() * 4}s;
-      --a1:${0.1 + Math.random() * 0.3};
-      --a2:${0.5 + Math.random() * 0.5};
-      animation-delay:${Math.random() * 5}s;
-    `;
-    starsEl.appendChild(s);
-  }
-
-  // ── CLOUDS ──────────────────────────────────────────────────
-  const cloudsEl = document.getElementById('clouds');
-  const cloudData = [
-    { top: 8,  w: 90,  h: 22, dur: 42, delay: 0,   color: 'rgba(255,230,200,0.55)' },
-    { top: 14, w: 120, h: 28, dur: 60, delay: -18,  color: 'rgba(255,215,175,0.45)' },
-    { top: 20, w: 70,  h: 18, dur: 35, delay: -10,  color: 'rgba(240,220,200,0.5)'  },
-    { top: 28, w: 100, h: 24, dur: 50, delay: -30,  color: 'rgba(200,220,255,0.35)' },
-    { top: 34, w: 80,  h: 20, dur: 44, delay: -6,   color: 'rgba(200,220,255,0.3)'  },
+  // ── SPIRIT ORBS ──────────────────────────────────────────────
+  const sp = document.getElementById('spirits');
+  const orbs = [
+    {t:12,l:7,  s:5},{t:20,l:87,s:4},{t:32,l:14,s:3},
+    {t:27,l:72,s:4},{t:44,l:93,s:3},{t:55,l:4, s:5},
+    {t:16,l:52,s:3},{t:39,l:38,s:4},{t:62,l:82,s:3},
+    {t:30,l:28,s:4},{t:10,l:64,s:3},{t:48,l:57,s:4},
+    {t:68,l:20,s:3},{t:23,l:97,s:3},{t:50,l:70,s:3},
   ];
-  cloudData.forEach(c => {
+  function r(n){ return ((Math.random()-.5)*n).toFixed(1)+'px'; }
+  orbs.forEach(o => {
     const el = document.createElement('div');
-    el.className = 'cloud';
+    el.className = 'spirit';
+    const dur = 6 + Math.random()*9, dur2 = 3 + Math.random()*5;
     el.style.cssText = `
-      top:${c.top}%; width:${c.w}px; height:${c.h}px;
-      background:${c.color};
-      animation-duration:${c.dur}s;
-      animation-delay:${c.delay}s;
+      top:${o.t}%;left:${o.l}%;
+      width:${o.s}px;height:${o.s}px;
+      --sf:${dur.toFixed(1)}s;--sf2:${dur2.toFixed(1)}s;
+      --x1:${r(55)};--y1:${r(45)};
+      --x2:${r(55)};--y2:${r(45)};
+      --x3:${r(55)};--y3:${r(45)};
+      animation-delay:${(Math.random()*9).toFixed(1)}s,${(Math.random()*6).toFixed(1)}s;
     `;
-    el.style.setProperty('--before-w', `${c.w * 0.55}px`);
-    el.style.setProperty('--before-h', `${c.h * 1.4}px`);
-    cloudsEl.appendChild(el);
+    sp.appendChild(el);
   });
-
-  // ── FIREFLIES ───────────────────────────────────────────────
-  const fireflyPositions = [
-    { top: 38, left: 12,  size: 5 },
-    { top: 44, left: 82,  size: 4 },
-    { top: 28, left: 24,  size: 3 },
-    { top: 52, left: 68,  size: 4 },
-    { top: 35, left: 55,  size: 3 },
-    { top: 60, left: 18,  size: 5 },
-    { top: 48, left: 90,  size: 3 },
-    { top: 42, left: 40,  size: 4 },
-    { top: 30, left: 72,  size: 3 },
-    { top: 55, left: 8,   size: 4 },
-    { top: 25, left: 88,  size: 3 },
-    { top: 67, left: 78,  size: 4 },
-  ];
-  fireflyPositions.forEach((f, i) => {
-    const el = document.createElement('div');
-    el.className = 'firefly';
-    const dur = 5 + Math.random() * 8;
-    const dur2 = 2 + Math.random() * 4;
-    el.style.cssText = `
-      top:${f.top}%; left:${f.left}%;
-      width:${f.size}px; height:${f.size}px;
-      --fd:${dur}s; --fd2:${dur2}s;
-      --fx1:${rnd()}px; --fy1:${rnd()}px;
-      --fx2:${rnd()}px; --fy2:${rnd()}px;
-      --fx3:${rnd()}px; --fy3:${rnd()}px;
-      --fx4:${rnd()}px; --fy4:${rnd()}px;
-      animation-delay:${Math.random() * 6}s, ${Math.random() * 4}s;
-    `;
-    document.body.appendChild(el);
-  });
-
-  function rnd() { return (Math.random() - 0.5) * 70; }
 </script>
 </body>
 </html>
