@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=390, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Jarosław Pawełczyk — Google Tech Talk</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Raleway:ital,wght@0,300;0,400;0,600;1,300&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 390px;
+      height: 844px;
+      overflow: hidden;
+      position: relative;
+      font-family: 'Raleway', sans-serif;
+      background: #0a0f1e;
+    }
+
+    /* ── SKY ───────────────────────────────────────────────── */
+    .sky {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        #0a0f1e 0%,
+        #0d1b3e 12%,
+        #1a2f6b 28%,
+        #2e5fa3 44%,
+        #5b8ec4 56%,
+        #a2c4dd 66%,
+        #f0cfa0 78%,
+        #e8a96a 88%,
+        #c97940 95%,
+        #9b4f22 100%
+      );
+      animation: skyShift 20s ease-in-out infinite alternate;
+    }
+    @keyframes skyShift {
+      0%   { filter: hue-rotate(0deg) brightness(1); }
+      100% { filter: hue-rotate(15deg) brightness(1.05); }
+    }
+
+    /* ── STARS ─────────────────────────────────────────────── */
+    .stars {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .star {
+      position: absolute;
+      border-radius: 50%;
+      background: #fff;
+      animation: twinkle var(--d, 3s) ease-in-out infinite alternate;
+    }
+    @keyframes twinkle {
+      from { opacity: var(--a1, 0.2); transform: scale(1); }
+      to   { opacity: var(--a2, 0.9); transform: scale(1.5); }
+    }
+
+    /* ── CLOUDS ────────────────────────────────────────────── */
+    .clouds {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .cloud {
+      position: absolute;
+      border-radius: 50px;
+      filter: blur(2px);
+      opacity: 0.55;
+      animation: drift linear infinite;
+    }
+    .cloud::before, .cloud::after {
+      content: '';
+      position: absolute;
+      background: inherit;
+      border-radius: 50%;
+    }
+    @keyframes drift {
+      from { transform: translateX(-300px); }
+      to   { transform: translateX(700px); }
+    }
+
+    /* ── FLOATING ISLAND ───────────────────────────────────── */
+    .island-wrap {
+      position: absolute;
+      bottom: 155px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 340px;
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateX(-50%) translateY(0px); }
+      50%       { transform: translateX(-50%) translateY(-10px); }
+    }
+
+    /* ── TREES / FOREGROUND ────────────────────────────────── */
+    .foreground {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 165px;
+      pointer-events: none;
+    }
+
+    /* ── CARD ──────────────────────────────────────────────── */
+    .card {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -53%);
+      width: 294px;
+      background: rgba(10, 20, 50, 0.55);
+      backdrop-filter: blur(18px) saturate(1.6);
+      -webkit-backdrop-filter: blur(18px) saturate(1.6);
+      border: 1px solid rgba(160, 200, 255, 0.25);
+      border-radius: 28px;
+      padding: 20px 22px 18px;
+      text-align: center;
+      box-shadow:
+        0 0 0 1px rgba(80, 140, 255, 0.1),
+        0 8px 48px rgba(0, 0, 0, 0.55),
+        0 0 80px rgba(60, 120, 255, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      z-index: 10;
+    }
+
+    /* circuit corner accents */
+    .card::before, .card::after {
+      content: '';
+      position: absolute;
+      width: 38px;
+      height: 38px;
+      border-color: rgba(100, 180, 255, 0.45);
+      border-style: solid;
+    }
+    .card::before {
+      top: 10px; left: 10px;
+      border-width: 2px 0 0 2px;
+      border-radius: 6px 0 0 0;
+    }
+    .card::after {
+      bottom: 10px; right: 10px;
+      border-width: 0 2px 2px 0;
+      border-radius: 0 0 6px 0;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 20px;
+      padding: 4px 11px 4px 8px;
+      margin-bottom: 12px;
+    }
+    .badge-dot {
+      width: 7px; height: 7px;
+      background: #4ade80;
+      border-radius: 50%;
+      box-shadow: 0 0 6px #4ade80;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 4px #4ade80; }
+      50%       { box-shadow: 0 0 10px #4ade80, 0 0 20px #4ade8060; }
+    }
+    .badge-text {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.75);
+    }
+
+    .name {
+      font-family: 'Cinzel', serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: #fff;
+      line-height: 1.3;
+      text-shadow: 0 0 20px rgba(120, 180, 255, 0.6);
+      margin-bottom: 3px;
+    }
+    .role {
+      font-size: 9.5px;
+      font-weight: 300;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(180, 210, 255, 0.65);
+      margin-bottom: 14px;
+    }
+
+    /* ── QR ────────────────────────────────────────────────── */
+    .qr-wrap {
+      position: relative;
+      display: inline-block;
+      padding: 10px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.97);
+      box-shadow:
+        0 0 0 1px rgba(100, 180, 255, 0.3),
+        0 0 24px rgba(80, 140, 255, 0.25),
+        0 4px 20px rgba(0,0,0,0.4);
+      margin-bottom: 14px;
+    }
+    .qr-glow {
+      position: absolute;
+      inset: -6px;
+      border-radius: 20px;
+      background: transparent;
+      box-shadow: 0 0 20px 4px rgba(80, 160, 255, 0.2);
+      animation: qrGlow 3s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+    @keyframes qrGlow {
+      from { box-shadow: 0 0 16px 2px rgba(80, 160, 255, 0.15); }
+      to   { box-shadow: 0 0 32px 8px rgba(120, 200, 255, 0.35); }
+    }
+    #qrcode canvas, #qrcode img { display: block; border-radius: 6px; }
+
+    .scan-label {
+      font-size: 8.5px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(160, 200, 255, 0.6);
+      margin-bottom: 8px;
+    }
+
+    .linkedin-handle {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(200, 225, 255, 0.9);
+      letter-spacing: 0.04em;
+      padding: 5px 12px;
+      border-radius: 20px;
+      background: rgba(10, 100, 200, 0.3);
+      border: 1px solid rgba(80, 160, 255, 0.3);
+    }
+
+    .divider {
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(120, 180, 255, 0.4), transparent);
+      margin: 12px auto;
+    }
+
+    .event-label {
+      font-size: 8px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255, 200, 120, 0.7);
+    }
+
+    /* ── FIREFLIES ─────────────────────────────────────────── */
+    .firefly {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ffe066 0%, #ffb30080 60%, transparent 100%);
+      animation: flyAround var(--fd, 8s) ease-in-out infinite alternate, fadeFly var(--fd2, 4s) ease-in-out infinite;
+      pointer-events: none;
+      z-index: 5;
+    }
+    @keyframes flyAround {
+      0%   { transform: translate(0, 0); }
+      25%  { transform: translate(var(--fx1, 30px), var(--fy1, -20px)); }
+      50%  { transform: translate(var(--fx2, -15px), var(--fy2, 25px)); }
+      75%  { transform: translate(var(--fx3, 20px), var(--fy3, 10px)); }
+      100% { transform: translate(var(--fx4, -25px), var(--fy4, -15px)); }
+    }
+    @keyframes fadeFly {
+      0%, 100% { opacity: 0.1; }
+      50%       { opacity: 0.85; }
+    }
+
+    /* ── CIRCUIT LINES ─────────────────────────────────────── */
+    .circuit-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.06;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Sky -->
+<div class="sky"></div>
+
+<!-- Stars -->
+<div class="stars" id="stars"></div>
+
+<!-- Clouds -->
+<div class="clouds" id="clouds"></div>
+
+<!-- Circuit SVG overlay -->
+<svg class="circuit-overlay" viewBox="0 0 390 844" xmlns="http://www.w3.org/2000/svg">
+  <g stroke="#64b4ff" stroke-width="1" fill="none">
+    <line x1="20" y1="100" x2="120" y2="100"/>
+    <line x1="120" y1="100" x2="120" y2="60"/>
+    <circle cx="120" cy="60" r="3" fill="#64b4ff"/>
+    <line x1="20" y1="130" x2="80" y2="130"/>
+    <line x1="80" y1="130" x2="80" y2="170"/>
+    <line x1="80" y1="170" x2="40" y2="170"/>
+    <circle cx="40" cy="170" r="3" fill="#64b4ff"/>
+    <circle cx="20" cy="100" r="3" fill="#64b4ff"/>
+
+    <line x1="370" y1="200" x2="270" y2="200"/>
+    <line x1="270" y1="200" x2="270" y2="240"/>
+    <circle cx="270" cy="240" r="3" fill="#64b4ff"/>
+    <line x1="370" y1="230" x2="330" y2="230"/>
+    <line x1="330" y1="230" x2="330" y2="270"/>
+    <line x1="330" y1="270" x2="360" y2="270"/>
+    <circle cx="360" cy="270" r="3" fill="#64b4ff"/>
+
+    <line x1="10" y1="700" x2="10" y2="620"/>
+    <line x1="10" y1="620" x2="50" y2="620"/>
+    <circle cx="50" cy="620" r="3" fill="#64b4ff"/>
+    <line x1="30" y1="700" x2="30" y2="740"/>
+    <circle cx="30" cy="740" r="3" fill="#64b4ff"/>
+
+    <line x1="380" y1="680" x2="380" y2="600"/>
+    <line x1="380" y1="600" x2="340" y2="600"/>
+    <circle cx="340" cy="600" r="3" fill="#64b4ff"/>
+    <line x1="360" y1="680" x2="360" y2="720"/>
+    <circle cx="360" cy="720" r="3" fill="#64b4ff"/>
+
+    <line x1="50" y1="400" x2="50" y2="450"/>
+    <line x1="50" y1="450" x2="20" y2="450"/>
+    <circle cx="20" cy="450" r="3" fill="#64b4ff"/>
+    <line x1="340" y1="400" x2="340" y2="450"/>
+    <line x1="340" y1="450" x2="370" y2="450"/>
+    <circle cx="370" cy="450" r="3" fill="#64b4ff"/>
+  </g>
+</svg>
+
+<!-- Floating island SVG -->
+<div class="island-wrap">
+  <svg viewBox="0 0 340 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block">
+    <defs>
+      <linearGradient id="groundGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#2d5a1b"/>
+        <stop offset="40%" stop-color="#4a7a28"/>
+        <stop offset="100%" stop-color="#1a2e0f"/>
+      </linearGradient>
+      <linearGradient id="rockGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#5a4a3a"/>
+        <stop offset="100%" stop-color="#2a1e12"/>
+      </linearGradient>
+      <filter id="islandGlow">
+        <feGaussianBlur stdDeviation="3" result="blur"/>
+        <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+      </filter>
+    </defs>
+    <!-- Rock base -->
+    <ellipse cx="170" cy="90" rx="155" ry="30" fill="url(#rockGrad)" opacity="0.9"/>
+    <ellipse cx="170" cy="82" rx="145" ry="22" fill="#3a2a1a"/>
+    <!-- Ground top -->
+    <ellipse cx="170" cy="72" rx="150" ry="24" fill="url(#groundGrad)"/>
+    <!-- Grass detail -->
+    <ellipse cx="170" cy="66" rx="148" ry="18" fill="#3a6b20"/>
+    <ellipse cx="170" cy="62" rx="144" ry="14" fill="#4a8828"/>
+    <!-- Root tendrils -->
+    <path d="M 100 90 Q 90 110 70 115" stroke="#2a1e12" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M 130 95 Q 125 112 105 118" stroke="#2a1e12" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M 240 90 Q 250 110 270 116" stroke="#2a1e12" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M 210 95 Q 215 112 235 119" stroke="#2a1e12" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M 170 96 Q 170 115 170 120" stroke="#2a1e12" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <!-- Trees left -->
+    <rect x="52" y="30" width="7" height="34" rx="2" fill="#2d1a0a"/>
+    <ellipse cx="55" cy="30" rx="16" ry="19" fill="#1a4a10"/>
+    <ellipse cx="55" cy="24" rx="12" ry="15" fill="#236016"/>
+    <!-- Trees right -->
+    <rect x="280" y="32" width="7" height="32" rx="2" fill="#2d1a0a"/>
+    <ellipse cx="283" cy="32" rx="16" ry="18" fill="#1a4a10"/>
+    <ellipse cx="283" cy="26" rx="12" ry="14" fill="#236016"/>
+    <!-- Small tree right cluster -->
+    <rect x="255" y="40" width="5" height="24" rx="2" fill="#2d1a0a"/>
+    <ellipse cx="257" cy="40" rx="11" ry="13" fill="#1e5214"/>
+    <!-- Small tree left cluster -->
+    <rect x="72" y="42" width="5" height="22" rx="2" fill="#2d1a0a"/>
+    <ellipse cx="74" cy="42" rx="11" ry="12" fill="#1e5214"/>
+    <!-- Glowing crystal / tech artifact -->
+    <polygon points="170,8 180,30 170,26 160,30" fill="#64c8ff" opacity="0.9"/>
+    <polygon points="170,8 180,30 170,20 160,30" fill="#a0e0ff" opacity="0.7"/>
+    <line x1="170" y1="26" x2="170" y2="58" stroke="#64c8ff" stroke-width="1.5" opacity="0.5"/>
+    <ellipse cx="170" cy="60" rx="8" ry="3" fill="#64c8ff" opacity="0.25"/>
+    <!-- Glow -->
+    <ellipse cx="170" cy="10" rx="12" ry="12" fill="#64c8ff" opacity="0.12" filter="url(#islandGlow)"/>
+    <!-- Small glowing orbs -->
+    <circle cx="90" cy="50" r="2.5" fill="#ffe066" opacity="0.8"/>
+    <circle cx="250" cy="48" r="2" fill="#ffe066" opacity="0.7"/>
+    <circle cx="140" cy="55" r="1.8" fill="#ffe066" opacity="0.6"/>
+    <!-- Circuit etch on rock -->
+    <line x1="125" y1="88" x2="155" y2="88" stroke="#64b4ff" stroke-width="0.8" opacity="0.5"/>
+    <line x1="155" y1="88" x2="155" y2="80" stroke="#64b4ff" stroke-width="0.8" opacity="0.5"/>
+    <line x1="185" y1="88" x2="215" y2="88" stroke="#64b4ff" stroke-width="0.8" opacity="0.5"/>
+    <line x1="215" y1="88" x2="215" y2="80" stroke="#64b4ff" stroke-width="0.8" opacity="0.5"/>
+  </svg>
+</div>
+
+<!-- Card -->
+<div class="card">
+  <div class="card-corner-tl"></div>
+  <div class="badge">
+    <div class="badge-dot"></div>
+    <span class="badge-text">Google Tech Talk</span>
+  </div>
+  <div class="name">Jarosław Pawełczyk</div>
+  <div class="role">Software Engineer</div>
+  <div class="qr-wrap">
+    <div class="qr-glow"></div>
+    <div id="qrcode"></div>
+  </div>
+  <div class="scan-label">Scan to connect</div>
+  <div class="linkedin-handle">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="#60a5fa">
+      <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+    </svg>
+    /jaroslawpawelczyk
+  </div>
+  <div class="divider"></div>
+  <div class="event-label">Connect · Collaborate · Create</div>
+</div>
+
+<!-- Foreground trees SVG -->
+<div class="foreground">
+  <svg viewBox="0 0 390 165" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">
+    <defs>
+      <linearGradient id="fgGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#0d2010"/>
+        <stop offset="100%" stop-color="#050c07"/>
+      </linearGradient>
+    </defs>
+    <!-- Ground fill -->
+    <path d="M0 100 Q195 70 390 100 L390 165 L0 165 Z" fill="url(#fgGrad)"/>
+    <!-- Tree silhouettes -->
+    <!-- Far left -->
+    <rect x="10" y="45" width="9" height="60" rx="3" fill="#0a1a0c"/>
+    <ellipse cx="14" cy="45" rx="22" ry="28" fill="#0d1e0f"/>
+    <ellipse cx="14" cy="30" rx="16" ry="22" fill="#0f2212"/>
+    <ellipse cx="14" cy="16" rx="10" ry="16" fill="#112614"/>
+    <!-- Left 2 -->
+    <rect x="45" y="55" width="7" height="50" rx="3" fill="#0a1a0c"/>
+    <ellipse cx="48" cy="55" rx="18" ry="24" fill="#0d1e0f"/>
+    <ellipse cx="48" cy="40" rx="13" ry="19" fill="#0f2212"/>
+    <!-- Left small -->
+    <rect x="68" y="70" width="5" height="35" rx="2" fill="#0a1a0c"/>
+    <ellipse cx="70" cy="70" rx="12" ry="16" fill="#0d2010"/>
+    <!-- Right far -->
+    <rect x="371" y="42" width="9" height="65" rx="3" fill="#0a1a0c"/>
+    <ellipse cx="375" cy="42" rx="22" ry="30" fill="#0d1e0f"/>
+    <ellipse cx="375" cy="26" rx="16" ry="22" fill="#0f2212"/>
+    <ellipse cx="375" cy="12" rx="10" ry="14" fill="#112614"/>
+    <!-- Right 2 -->
+    <rect x="340" y="58" width="7" height="48" rx="3" fill="#0a1a0c"/>
+    <ellipse cx="343" cy="58" rx="18" ry="22" fill="#0d1e0f"/>
+    <ellipse cx="343" cy="44" rx="13" ry="18" fill="#0f2212"/>
+    <!-- Right small -->
+    <rect x="315" y="72" width="5" height="35" rx="2" fill="#0a1a0c"/>
+    <ellipse cx="317" cy="72" rx="12" ry="15" fill="#0d2010"/>
+    <!-- Firefly glow spots in trees -->
+    <circle cx="30" cy="50" r="3" fill="#ffe066" opacity="0.4"/>
+    <circle cx="60" cy="62" r="2" fill="#ffe066" opacity="0.35"/>
+    <circle cx="355" cy="55" r="3" fill="#ffe066" opacity="0.4"/>
+    <circle cx="325" cy="70" r="2" fill="#ffe066" opacity="0.3"/>
+  </svg>
+</div>
+
+<script>
+  // ── QR CODE ─────────────────────────────────────────────────
+  new QRCode(document.getElementById('qrcode'), {
+    text: 'https://www.linkedin.com/in/jaroslawpawelczyk/',
+    width: 186,
+    height: 186,
+    colorDark: '#0a0f1e',
+    colorLight: '#f8faff',
+    correctLevel: QRCode.CorrectLevel.H
+  });
+
+  // ── STARS ───────────────────────────────────────────────────
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 80; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 2 + 0.5;
+    s.style.cssText = `
+      width:${size}px; height:${size}px;
+      top:${Math.random() * 55}%;
+      left:${Math.random() * 100}%;
+      --d:${2 + Math.random() * 4}s;
+      --a1:${0.1 + Math.random() * 0.3};
+      --a2:${0.5 + Math.random() * 0.5};
+      animation-delay:${Math.random() * 5}s;
+    `;
+    starsEl.appendChild(s);
+  }
+
+  // ── CLOUDS ──────────────────────────────────────────────────
+  const cloudsEl = document.getElementById('clouds');
+  const cloudData = [
+    { top: 8,  w: 90,  h: 22, dur: 42, delay: 0,   color: 'rgba(255,230,200,0.55)' },
+    { top: 14, w: 120, h: 28, dur: 60, delay: -18,  color: 'rgba(255,215,175,0.45)' },
+    { top: 20, w: 70,  h: 18, dur: 35, delay: -10,  color: 'rgba(240,220,200,0.5)'  },
+    { top: 28, w: 100, h: 24, dur: 50, delay: -30,  color: 'rgba(200,220,255,0.35)' },
+    { top: 34, w: 80,  h: 20, dur: 44, delay: -6,   color: 'rgba(200,220,255,0.3)'  },
+  ];
+  cloudData.forEach(c => {
+    const el = document.createElement('div');
+    el.className = 'cloud';
+    el.style.cssText = `
+      top:${c.top}%; width:${c.w}px; height:${c.h}px;
+      background:${c.color};
+      animation-duration:${c.dur}s;
+      animation-delay:${c.delay}s;
+    `;
+    el.style.setProperty('--before-w', `${c.w * 0.55}px`);
+    el.style.setProperty('--before-h', `${c.h * 1.4}px`);
+    cloudsEl.appendChild(el);
+  });
+
+  // ── FIREFLIES ───────────────────────────────────────────────
+  const fireflyPositions = [
+    { top: 38, left: 12,  size: 5 },
+    { top: 44, left: 82,  size: 4 },
+    { top: 28, left: 24,  size: 3 },
+    { top: 52, left: 68,  size: 4 },
+    { top: 35, left: 55,  size: 3 },
+    { top: 60, left: 18,  size: 5 },
+    { top: 48, left: 90,  size: 3 },
+    { top: 42, left: 40,  size: 4 },
+    { top: 30, left: 72,  size: 3 },
+    { top: 55, left: 8,   size: 4 },
+    { top: 25, left: 88,  size: 3 },
+    { top: 67, left: 78,  size: 4 },
+  ];
+  fireflyPositions.forEach((f, i) => {
+    const el = document.createElement('div');
+    el.className = 'firefly';
+    const dur = 5 + Math.random() * 8;
+    const dur2 = 2 + Math.random() * 4;
+    el.style.cssText = `
+      top:${f.top}%; left:${f.left}%;
+      width:${f.size}px; height:${f.size}px;
+      --fd:${dur}s; --fd2:${dur2}s;
+      --fx1:${rnd()}px; --fy1:${rnd()}px;
+      --fx2:${rnd()}px; --fy2:${rnd()}px;
+      --fx3:${rnd()}px; --fy3:${rnd()}px;
+      --fx4:${rnd()}px; --fy4:${rnd()}px;
+      animation-delay:${Math.random() * 6}s, ${Math.random() * 4}s;
+    `;
+    document.body.appendChild(el);
+  });
+
+  function rnd() { return (Math.random() - 0.5) * 70; }
+</script>
+</body>
+</html>
