@@ -269,83 +269,96 @@
     <path d="M -10,360 Q 120,348 240,358 Q 340,366 400,352" stroke="#2e1e0c" stroke-width="0.7" opacity="0.13"/>
   </g>
 
-  <!-- ── RADIATION HAZARD RING ─────────────────────────── -->
-  <circle cx="195" cy="410" r="193" stroke="#39ff14" stroke-width="2"
-    fill="none" opacity="0.12" filter="url(#fsoft)"/>
+  <!-- ── RUINED CITYSCAPE (background behind card) ─────── -->
+  <!-- Large destroyed skyscrapers visible behind the card area -->
 
-  <circle cx="195" cy="410" r="190" stroke="#2a5a10" stroke-width="4" fill="none" opacity="0.45"/>
-  <circle cx="195" cy="410" r="196" stroke="#1a3a08" stroke-width="2" fill="none" opacity="0.30"/>
+  <!-- Far left: tall destroyed tower -->
+  <rect x="0" y="180" width="45" height="470" fill="#1c1610"/>
+  <path d="M0,180 L8,165 L18,175 L30,155 L45,180" fill="#1c1610"/>
+  <rect x="5" y="200" width="8" height="6" rx="1" fill="#0e0a06" opacity="0.7"/>
+  <rect x="20" y="200" width="8" height="6" rx="1" fill="#0e0a06" opacity="0.6"/>
+  <rect x="5" y="220" width="8" height="6" rx="1" fill="#0e0a06" opacity="0.6"/>
+  <rect x="20" y="220" width="8" height="6" rx="1" fill="#ff6600" opacity="0.35"/>
+  <rect x="20" y="220" width="8" height="6" rx="1" fill="#ff6600" opacity="0.15" filter="url(#fmist)"/>
+  <rect x="5" y="245" width="8" height="6" rx="1" fill="#0e0a06" opacity="0.6"/>
+  <rect x="20" y="245" width="8" height="6" rx="1" fill="#0e0a06" opacity="0.5"/>
+  <rect x="5" y="270" width="8" height="6" rx="1" fill="#0e0a06" opacity="0.5"/>
+  <rect x="20" y="270" width="8" height="6" rx="1" fill="#0e0a06" opacity="0.5"/>
+  <rect x="5" y="295" width="8" height="6" rx="1" fill="#0e0a06" opacity="0.5"/>
+  <rect x="5" y="320" width="8" height="6" rx="1" fill="#0e0a06" opacity="0.4"/>
+  <rect x="20" y="320" width="8" height="6" rx="1" fill="#0e0a06" opacity="0.4"/>
+  <!-- Exposed rebar -->
+  <line x1="38" y1="175" x2="42" y2="155" stroke="#2a1e14" stroke-width="1.5" opacity="0.6"/>
+  <line x1="32" y1="160" x2="36" y2="142" stroke="#2a1e14" stroke-width="1" opacity="0.5"/>
 
-  <!-- Rotating hazard segments -->
-  <g opacity="0.22" stroke="#39ff14" fill="none">
-    <circle cx="195" cy="410" r="193" stroke-width="8" stroke-dasharray="40 1173" stroke-linecap="round">
-      <animateTransform attributeName="transform" type="rotate"
-        from="0 195 410" to="360 195 410" dur="8s" repeatCount="indefinite"/>
-    </circle>
-  </g>
-  <g opacity="0.15" stroke="#ff6600" fill="none">
-    <circle cx="195" cy="410" r="193" stroke-width="6" stroke-dasharray="30 1183" stroke-linecap="round">
-      <animateTransform attributeName="transform" type="rotate"
-        from="120 195 410" to="-240 195 410" dur="12s" repeatCount="indefinite"/>
-    </circle>
+  <!-- Left mid: shorter wide ruin -->
+  <rect x="50" y="240" width="55" height="410" fill="#181210"/>
+  <path d="M50,240 L58,228 L72,238 L85,220 L95,232 L105,240" fill="#181210"/>
+  <rect x="56" y="255" width="7" height="5" rx="1" fill="#0e0a06" opacity="0.6"/>
+  <rect x="70" y="255" width="7" height="5" rx="1" fill="#0e0a06" opacity="0.6"/>
+  <rect x="84" y="255" width="7" height="5" rx="1" fill="#0e0a06" opacity="0.5"/>
+  <rect x="56" y="275" width="7" height="5" rx="1" fill="#0e0a06" opacity="0.5"/>
+  <rect x="70" y="275" width="7" height="5" rx="1" fill="#ff6600" opacity="0.3"/>
+  <rect x="70" y="275" width="7" height="5" rx="1" fill="#ff6600" opacity="0.12" filter="url(#fmist)"/>
+  <rect x="84" y="275" width="7" height="5" rx="1" fill="#0e0a06" opacity="0.5"/>
+  <rect x="56" y="295" width="7" height="5" rx="1" fill="#0e0a06" opacity="0.5"/>
+  <rect x="70" y="295" width="7" height="5" rx="1" fill="#0e0a06" opacity="0.4"/>
+  <rect x="84" y="295" width="7" height="5" rx="1" fill="#0e0a06" opacity="0.4"/>
+  <rect x="56" y="315" width="7" height="5" rx="1" fill="#0e0a06" opacity="0.4"/>
+  <rect x="70" y="315" width="7" height="5" rx="1" fill="#0e0a06" opacity="0.4"/>
+  <!-- Collapsed corner -->
+  <path d="M95,220 L105,240 L105,280 L95,265 Z" fill="#14100c" opacity="0.6"/>
+
+  <!-- Right side: tall crumbling tower -->
+  <rect x="340" y="190" width="50" height="460" fill="#1a1410"/>
+  <path d="M340,190 L348,172 L360,185 L375,165 L390,190" fill="#1a1410"/>
+  <rect x="348" y="208" width="7" height="5" rx="1" fill="#0e0a06" opacity="0.6"/>
+  <rect x="362" y="208" width="7" height="5" rx="1" fill="#0e0a06" opacity="0.6"/>
+  <rect x="375" y="208" width="7" height="5" rx="1" fill="#0e0a06" opacity="0.5"/>
+  <rect x="348" y="228" width="7" height="5" rx="1" fill="#0e0a06" opacity="0.6"/>
+  <rect x="362" y="228" width="7" height="5" rx="1" fill="#0e0a06" opacity="0.5"/>
+  <rect x="375" y="228" width="7" height="5" rx="1" fill="#ff6600" opacity="0.28"/>
+  <rect x="375" y="228" width="7" height="5" rx="1" fill="#ff6600" opacity="0.12" filter="url(#fmist)"/>
+  <rect x="348" y="248" width="7" height="5" rx="1" fill="#0e0a06" opacity="0.5"/>
+  <rect x="362" y="248" width="7" height="5" rx="1" fill="#0e0a06" opacity="0.5"/>
+  <rect x="348" y="268" width="7" height="5" rx="1" fill="#0e0a06" opacity="0.5"/>
+  <rect x="362" y="268" width="7" height="5" rx="1" fill="#0e0a06" opacity="0.4"/>
+  <rect x="375" y="268" width="7" height="5" rx="1" fill="#0e0a06" opacity="0.4"/>
+  <rect x="348" y="290" width="7" height="5" rx="1" fill="#0e0a06" opacity="0.4"/>
+  <rect x="362" y="290" width="7" height="5" rx="1" fill="#0e0a06" opacity="0.4"/>
+  <!-- Exposed rebar -->
+  <line x1="345" y1="178" x2="342" y2="158" stroke="#2a1e14" stroke-width="1.5" opacity="0.6"/>
+  <line x1="380" y1="170" x2="384" y2="150" stroke="#2a1e14" stroke-width="1" opacity="0.5"/>
+
+  <!-- Right mid: wider crumbling block -->
+  <rect x="295" y="260" width="48" height="390" fill="#161008"/>
+  <path d="M295,260 L302,248 L315,258 L328,242 L343,260" fill="#161008"/>
+  <rect x="302" y="275" width="6" height="5" rx="1" fill="#0e0a06" opacity="0.5"/>
+  <rect x="316" y="275" width="6" height="5" rx="1" fill="#0e0a06" opacity="0.5"/>
+  <rect x="328" y="275" width="6" height="5" rx="1" fill="#0e0a06" opacity="0.5"/>
+  <rect x="302" y="295" width="6" height="5" rx="1" fill="#0e0a06" opacity="0.4"/>
+  <rect x="316" y="295" width="6" height="5" rx="1" fill="#ff6600" opacity="0.25"/>
+  <rect x="316" y="295" width="6" height="5" rx="1" fill="#ff6600" opacity="0.10" filter="url(#fmist)"/>
+  <rect x="328" y="295" width="6" height="5" rx="1" fill="#0e0a06" opacity="0.4"/>
+
+  <!-- Smoke rising from buildings -->
+  <g opacity="0.25">
+    <ellipse cx="25" cy="165" rx="18" ry="10" fill="#2a1c0c" filter="url(#fdust)">
+      <animate attributeName="cy" values="165;150;165" dur="7s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.2;0.35;0.2" dur="7s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse cx="370" cy="162" rx="20" ry="12" fill="#2a1c0c" filter="url(#fdust)">
+      <animate attributeName="cy" values="162;148;162" dur="6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.18;0.32;0.18" dur="6s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse cx="80" cy="225" rx="14" ry="8" fill="#2a1c0c" filter="url(#fdust)">
+      <animate attributeName="cy" values="225;215;225" dur="5.5s" repeatCount="indefinite"/>
+    </ellipse>
   </g>
 
-  <!-- Pulsing green energy arcs -->
-  <g stroke="#39ff14" fill="none" stroke-linecap="round" filter="url(#fgreen)">
-    <path d="M195,410 Q230,350 270,275" stroke-width="1.4" opacity="0.35">
-      <animate attributeName="opacity" values="0.1;0.4;0.1" dur="3s" repeatCount="indefinite"/>
-    </path>
-    <path d="M195,410 Q160,340 130,260" stroke-width="1.2" opacity="0.30">
-      <animate attributeName="opacity" values="0.05;0.35;0.05" dur="4s" repeatCount="indefinite"/>
-    </path>
-    <path d="M195,410 Q250,430 330,420" stroke-width="1.0" opacity="0.25">
-      <animate attributeName="opacity" values="0.08;0.3;0.08" dur="3.5s" repeatCount="indefinite"/>
-    </path>
-    <path d="M195,410 Q140,440 60,435" stroke-width="1.0" opacity="0.25">
-      <animate attributeName="opacity" values="0.05;0.28;0.05" dur="4.5s" repeatCount="indefinite"/>
-    </path>
-  </g>
-
-  <!-- Orange energy arcs -->
-  <g stroke="#ff6600" fill="none" stroke-linecap="round" filter="url(#forange)">
-    <path d="M195,410 Q220,460 260,540" stroke-width="1.2" opacity="0.28">
-      <animate attributeName="opacity" values="0.08;0.3;0.08" dur="3.8s" repeatCount="indefinite"/>
-    </path>
-    <path d="M195,410 Q170,465 140,550" stroke-width="1.0" opacity="0.22">
-      <animate attributeName="opacity" values="0.05;0.25;0.05" dur="4.2s" repeatCount="indefinite"/>
-    </path>
-  </g>
-
-  <!-- Scattered radiation sparks -->
-  <g fill="#39ff14">
-    <circle cx="80"  cy="180" r="1.2" opacity="0.3">
-      <animate attributeName="opacity" values="0.05;0.4;0.05" dur="2.5s" repeatCount="indefinite"/>
-    </circle>
-    <circle cx="320" cy="220" r="1.0" opacity="0.25">
-      <animate attributeName="opacity" values="0.05;0.35;0.05" dur="3.2s" repeatCount="indefinite"/>
-    </circle>
-    <circle cx="55"  cy="340" r="1.4" opacity="0.35">
-      <animate attributeName="opacity" values="0.08;0.45;0.08" dur="2.8s" repeatCount="indefinite"/>
-    </circle>
-    <circle cx="340" cy="380" r="1.0" opacity="0.25">
-      <animate attributeName="opacity" values="0.05;0.3;0.05" dur="3.5s" repeatCount="indefinite"/>
-    </circle>
-    <circle cx="45"  cy="500" r="1.2" opacity="0.28">
-      <animate attributeName="opacity" values="0.06;0.35;0.06" dur="2.9s" repeatCount="indefinite"/>
-    </circle>
-    <circle cx="350" cy="550" r="0.9" opacity="0.22">
-      <animate attributeName="opacity" values="0.04;0.28;0.04" dur="3.8s" repeatCount="indefinite"/>
-    </circle>
-  </g>
-
-  <!-- Faint radiation trefoil watermark behind card -->
-  <g opacity="0.06" transform="translate(195,410)">
-    <path d="M0,-60 A30,30 0 0,1 52,-30 A60,60 0 0,0 0,-60Z" fill="#39ff14"/>
-    <path d="M52,-30 A30,30 0 0,1 52,30 A60,60 0 0,0 52,-30Z" fill="#39ff14" transform="rotate(120)"/>
-    <path d="M52,-30 A30,30 0 0,1 52,30 A60,60 0 0,0 52,-30Z" fill="#39ff14" transform="rotate(240)"/>
-    <circle cx="0" cy="0" r="18" fill="#39ff14"/>
-    <circle cx="0" cy="0" r="12" fill="#0a0806"/>
-  </g>
+  <!-- Distant fire glow behind left buildings -->
+  <ellipse cx="30" cy="200" rx="40" ry="25" fill="#ff4400" opacity="0.06" filter="url(#fsoft)"/>
+  <ellipse cx="365" cy="210" rx="35" ry="20" fill="#ff4400" opacity="0.05" filter="url(#fsoft)"/>
 
   <!-- ── CRACKED GROUND TEXTURE ──────────────────────── -->
   <g stroke="#1a1408" stroke-width="0.8" fill="none" opacity="0.4">
@@ -418,103 +431,129 @@
       fill="url(#ruinGrad)" opacity="0.9"/>
 
     <!-- Haze / dust at horizon -->
-    <rect x="0" y="70" width="390" height="40" fill="#1a1008" opacity="0.5" filter="url(#fsmoke)"/>
+    <rect x="0" y="60" width="390" height="45" fill="#1a1008" opacity="0.4" filter="url(#fsmoke)"/>
 
-    <!-- ── SKY TOWER (right side, damaged) ──────────────── -->
-    <rect x="318" y="42" width="14" height="130" rx="2" fill="#181210"/>
-    <rect x="310" y="82" width="30" height="12" rx="3" fill="#1e1610"/>
-    <rect x="312" y="78" width="26" height="5"  rx="2" fill="#201810"/>
-    <line x1="325" y1="42" x2="325" y2="18" stroke="#181210" stroke-width="3"/>
-    <line x1="325" y1="18" x2="325" y2="6"  stroke="#181210" stroke-width="1.5"/>
+    <!-- ── SKY TOWER (right side, damaged, prominent) ──── -->
+    <rect x="312" y="22" width="22" height="150" rx="2" fill="#2a2018"/>
+    <!-- Observation deck -->
+    <rect x="302" y="72" width="42" height="16" rx="3" fill="#302820"/>
+    <rect x="304" y="66" width="38" height="8"  rx="2" fill="#342c22"/>
+    <!-- Spire -->
+    <line x1="323" y1="22" x2="323" y2="-8" stroke="#2a2018" stroke-width="4"/>
+    <line x1="323" y1="-8" x2="323" y2="-24" stroke="#2a2018" stroke-width="2"/>
     <!-- Antenna light (radioactive green blink) -->
-    <circle cx="325" cy="5" r="2.5" fill="#39ff14" opacity="0.9">
+    <rect x="321" y="-26" width="4" height="4" rx="1" fill="#39ff14" opacity="0.9">
       <animate attributeName="opacity" values="0.3;0.9;0.3" dur="1.8s" repeatCount="indefinite"/>
-    </circle>
-    <circle cx="325" cy="5" r="7" fill="#39ff14" opacity="0.2" filter="url(#fglow)">
-      <animate attributeName="opacity" values="0.08;0.25;0.08" dur="1.8s" repeatCount="indefinite"/>
-    </circle>
-    <!-- Damage marks -->
-    <path d="M318,100 L322,95 L320,105" stroke="#0e0a04" stroke-width="1" fill="none" opacity="0.6"/>
-    <path d="M332,68 L329,72 L333,75" stroke="#0e0a04" stroke-width="0.8" fill="none" opacity="0.5"/>
-    <line x1="320" y1="94" x2="330" y2="94" stroke="#14100a" stroke-width="0.5" opacity="0.4"/>
-    <line x1="320" y1="108" x2="330" y2="108" stroke="#14100a" stroke-width="0.5" opacity="0.4"/>
-    <line x1="320" y1="120" x2="330" y2="120" stroke="#14100a" stroke-width="0.5" opacity="0.4"/>
+    </rect>
+    <rect x="316" y="-31" width="14" height="14" rx="3" fill="#39ff14" opacity="0.15" filter="url(#fglow)">
+      <animate attributeName="opacity" values="0.05;0.2;0.05" dur="1.8s" repeatCount="indefinite"/>
+    </rect>
+    <!-- Damage cracks -->
+    <path d="M312,95 L318,88 L315,102" stroke="#0e0a04" stroke-width="1.5" fill="none" opacity="0.7"/>
+    <path d="M334,55 L329,60 L335,66" stroke="#0e0a04" stroke-width="1.2" fill="none" opacity="0.6"/>
+    <!-- Structural lines -->
+    <line x1="314" y1="90" x2="332" y2="90" stroke="#1e1810" stroke-width="0.8" opacity="0.5"/>
+    <line x1="314" y1="108" x2="332" y2="108" stroke="#1e1810" stroke-width="0.8" opacity="0.5"/>
+    <line x1="314" y1="126" x2="332" y2="126" stroke="#1e1810" stroke-width="0.8" opacity="0.5"/>
+    <line x1="314" y1="144" x2="332" y2="144" stroke="#1e1810" stroke-width="0.8" opacity="0.5"/>
+    <!-- Windows -->
+    <rect x="316" y="96"  width="5" height="4" rx="0.5" fill="#0e0a06" opacity="0.7"/>
+    <rect x="326" y="96"  width="5" height="4" rx="0.5" fill="#0e0a06" opacity="0.6"/>
+    <rect x="316" y="114" width="5" height="4" rx="0.5" fill="#0e0a06" opacity="0.6"/>
+    <rect x="326" y="114" width="5" height="4" rx="0.5" fill="#ff6600" opacity="0.45"/>
+    <rect x="326" y="114" width="5" height="4" rx="0.5" fill="#ff6600" opacity="0.15" filter="url(#fglow)"/>
+    <rect x="316" y="132" width="5" height="4" rx="0.5" fill="#0e0a06" opacity="0.5"/>
+    <rect x="326" y="132" width="5" height="4" rx="0.5" fill="#0e0a06" opacity="0.5"/>
 
     <!-- ── GRUNWALDZKI BRIDGE (center, battle-scarred) ──── -->
-    <rect x="60" y="128" width="260" height="8" rx="1" fill="url(#bridgeGrad)"/>
+    <rect x="50" y="128" width="270" height="10" rx="1" fill="url(#bridgeGrad)"/>
+    <!-- Bridge underside shadow -->
+    <rect x="55" y="138" width="260" height="4" fill="#0a0804" opacity="0.4"/>
 
-    <!-- Left pylon -->
-    <rect x="105" y="80" width="8" height="56" fill="#1c1410"/>
-    <rect x="100" y="76" width="18" height="8" rx="1" fill="#201810"/>
+    <!-- Left pylon (bigger) -->
+    <rect x="98" y="68" width="14" height="72" fill="#2a2018"/>
+    <rect x="92" y="62" width="26" height="10" rx="1" fill="#302820"/>
     <!-- Right pylon -->
-    <rect x="245" y="80" width="8" height="56" fill="#1c1410"/>
-    <rect x="240" y="76" width="18" height="8" rx="1" fill="#201810"/>
+    <rect x="240" y="68" width="14" height="72" fill="#2a2018"/>
+    <rect x="234" y="62" width="26" height="10" rx="1" fill="#302820"/>
 
-    <!-- Suspension cables (some broken) -->
-    <g stroke="#2a2018" stroke-width="1.2" fill="none">
-      <path d="M109,80 Q85,105 60,130"/>
-      <path d="M109,80 Q90,100 72,128"/>
-      <path d="M109,80 Q95,98 85,128"/>
-      <path d="M109,80 Q100,95 95,128"/>
-      <path d="M249,80 Q275,105 300,130"/>
-      <path d="M249,80 Q265,100 285,128"/>
-      <path d="M249,80 Q258,95 272,128"/>
-      <path d="M109,80 Q130,100 150,128"/>
-      <path d="M109,80 Q140,95 165,128"/>
-      <path d="M249,80 Q228,100 210,128"/>
-      <path d="M249,80 Q220,95 195,128"/>
+    <!-- Suspension cables (some broken) — brighter -->
+    <g stroke="#3a3020" stroke-width="1.5" fill="none">
+      <path d="M105,68 Q78,98 50,130"/>
+      <path d="M105,68 Q85,95 66,128"/>
+      <path d="M105,68 Q90,92 80,128"/>
+      <path d="M105,68 Q96,88 92,128"/>
+      <path d="M247,68 Q274,98 302,130"/>
+      <path d="M247,68 Q265,95 286,128"/>
+      <path d="M247,68 Q258,88 272,128"/>
+      <path d="M105,68 Q128,95 150,128"/>
+      <path d="M105,68 Q140,88 168,128"/>
+      <path d="M247,68 Q224,95 202,128"/>
+      <path d="M247,68 Q216,88 188,128"/>
       <!-- Broken cable dangling -->
-      <path d="M109,80 Q155,92 175,108" stroke-width="1" opacity="0.5"/>
-      <path d="M175,108 L178,125" stroke-width="0.8" opacity="0.4"/>
+      <path d="M105,68 Q152,82 175,100" stroke-width="1.2" opacity="0.6"/>
+      <path d="M175,100 L179,122" stroke-width="1" opacity="0.5"/>
     </g>
 
     <!-- Bridge railing fragments -->
-    <g stroke="#1e1610" stroke-width="0.6" opacity="0.5">
-      <line x1="70"  y1="126" x2="70"  y2="130"/>
-      <line x1="80"  y1="126" x2="80"  y2="130"/>
-      <line x1="90"  y1="126" x2="90"  y2="130"/>
-      <line x1="140" y1="126" x2="140" y2="130"/>
-      <line x1="150" y1="126" x2="150" y2="130"/>
-      <line x1="210" y1="126" x2="210" y2="130"/>
-      <line x1="220" y1="126" x2="220" y2="130"/>
-      <line x1="270" y1="126" x2="270" y2="130"/>
-      <line x1="280" y1="126" x2="280" y2="130"/>
-      <line x1="290" y1="126" x2="290" y2="130"/>
+    <g stroke="#2a2018" stroke-width="0.8" opacity="0.6">
+      <line x1="62"  y1="125" x2="62"  y2="130"/>
+      <line x1="74"  y1="125" x2="74"  y2="130"/>
+      <line x1="86"  y1="125" x2="86"  y2="130"/>
+      <line x1="140" y1="125" x2="140" y2="130"/>
+      <line x1="152" y1="125" x2="152" y2="130"/>
+      <line x1="206" y1="125" x2="206" y2="130"/>
+      <line x1="218" y1="125" x2="218" y2="130"/>
+      <line x1="268" y1="125" x2="268" y2="130"/>
+      <line x1="280" y1="125" x2="280" y2="130"/>
+      <line x1="292" y1="125" x2="292" y2="130"/>
     </g>
 
     <!-- ── RIVER ODRA (toxic water) ────────────────────── -->
-    <path d="M0,145 Q98,138 195,142 Q292,138 390,145 L390,170 Q292,162 195,166 Q98,162 0,170 Z"
-      fill="url(#waterGrad)" opacity="0.8"/>
-    <!-- Toxic green reflections -->
-    <ellipse cx="195" cy="155" rx="120" ry="8" fill="#39ff14" opacity="0.04" filter="url(#fglow)"/>
-    <ellipse cx="325" cy="153" rx="20" ry="5" fill="#39ff14" opacity="0.06" filter="url(#fglow)"/>
+    <path d="M0,148 Q98,140 195,144 Q292,140 390,148 L390,175 Q292,165 195,170 Q98,165 0,175 Z"
+      fill="url(#waterGrad)" opacity="0.9"/>
+    <!-- Toxic green reflections — brighter -->
+    <ellipse cx="195" cy="158" rx="140" ry="10" fill="#39ff14" opacity="0.06" filter="url(#fglow)"/>
+    <ellipse cx="323" cy="156" rx="25" ry="6" fill="#39ff14" opacity="0.08" filter="url(#fglow)"/>
 
-    <!-- ── RUINED BUILDINGS (left) ─────────────────────── -->
-    <rect x="10" y="88" width="30" height="80" rx="1" fill="#161008"/>
-    <rect x="10" y="82" width="25" height="88" rx="1" fill="#181210"/>
-    <path d="M10,82 L15,78 L20,82 L28,76 L35,82" fill="#181210"/>
-    <rect x="14" y="90"  width="4" height="3" rx="0.5" fill="#0a0804" opacity="0.6"/>
-    <rect x="22" y="90"  width="4" height="3" rx="0.5" fill="#0a0804" opacity="0.6"/>
-    <rect x="14" y="100" width="4" height="3" rx="0.5" fill="#0a0804" opacity="0.5"/>
-    <rect x="22" y="100" width="4" height="3" rx="0.5" fill="#0a0804" opacity="0.5"/>
-    <rect x="14" y="110" width="4" height="3" rx="0.5" fill="#0a0804" opacity="0.5"/>
-    <!-- One window with firelight -->
-    <rect x="22" y="110" width="4" height="3" rx="0.5" fill="#ff6600" opacity="0.6"/>
-    <rect x="22" y="110" width="4" height="3" rx="0.5" fill="#ff6600" opacity="0.2" filter="url(#fglow)"/>
+    <!-- ── RUINED BUILDINGS (left, bigger & brighter) ──── -->
+    <rect x="4" y="72" width="42" height="100" rx="1" fill="#221a12"/>
+    <rect x="4" y="64" width="36" height="108" rx="1" fill="#261e14"/>
+    <path d="M4,64 L12,58 L22,64 L32,52 L40,64" fill="#261e14"/>
+    <!-- Exposed rebar at top -->
+    <line x1="34" y1="55" x2="38" y2="42" stroke="#3a2e20" stroke-width="1.5" opacity="0.6"/>
+    <line x1="28" y1="54" x2="30" y2="44" stroke="#3a2e20" stroke-width="1" opacity="0.5"/>
+    <!-- Windows -->
+    <rect x="10" y="74"  width="6" height="5" rx="0.5" fill="#0e0a06" opacity="0.7"/>
+    <rect x="22" y="74"  width="6" height="5" rx="0.5" fill="#0e0a06" opacity="0.7"/>
+    <rect x="10" y="88"  width="6" height="5" rx="0.5" fill="#0e0a06" opacity="0.6"/>
+    <rect x="22" y="88"  width="6" height="5" rx="0.5" fill="#ff6600" opacity="0.55"/>
+    <rect x="22" y="88"  width="6" height="5" rx="0.5" fill="#ff6600" opacity="0.2" filter="url(#fglow)"/>
+    <rect x="10" y="102" width="6" height="5" rx="0.5" fill="#0e0a06" opacity="0.5"/>
+    <rect x="22" y="102" width="6" height="5" rx="0.5" fill="#0e0a06" opacity="0.5"/>
+    <rect x="10" y="116" width="6" height="5" rx="0.5" fill="#0e0a06" opacity="0.5"/>
+    <rect x="22" y="116" width="6" height="5" rx="0.5" fill="#0e0a06" opacity="0.4"/>
 
-    <rect x="44" y="98" width="20" height="70" rx="1" fill="#141008"/>
-    <path d="M44,98 L50,92 L58,96 L64,98" fill="#141008"/>
-    <rect x="48" y="105" width="3" height="3" rx="0.3" fill="#0a0804" opacity="0.5"/>
-    <rect x="55" y="105" width="3" height="3" rx="0.3" fill="#0a0804" opacity="0.4"/>
-    <rect x="48" y="115" width="3" height="3" rx="0.3" fill="#0a0804" opacity="0.4"/>
+    <!-- Second left ruin -->
+    <rect x="50" y="82" width="28" height="90" rx="1" fill="#201810"/>
+    <path d="M50,82 L58,74 L68,80 L78,82" fill="#201810"/>
+    <rect x="55" y="90"  width="5" height="4" rx="0.3" fill="#0e0a06" opacity="0.6"/>
+    <rect x="65" y="90"  width="5" height="4" rx="0.3" fill="#0e0a06" opacity="0.5"/>
+    <rect x="55" y="104" width="5" height="4" rx="0.3" fill="#0e0a06" opacity="0.5"/>
+    <rect x="65" y="104" width="5" height="4" rx="0.3" fill="#ff6600" opacity="0.35"/>
+    <rect x="65" y="104" width="5" height="4" rx="0.3" fill="#ff6600" opacity="0.12" filter="url(#fglow)"/>
+    <rect x="55" y="118" width="5" height="4" rx="0.3" fill="#0e0a06" opacity="0.4"/>
 
-    <!-- ── RIGHT SIDE RUINS ───────────────────────────── -->
-    <rect x="350" y="95" width="22" height="78" rx="1" fill="#161008"/>
-    <path d="M350,95 L356,88 L362,92 L372,95" fill="#161008"/>
-    <rect x="354" y="102" width="3" height="3" rx="0.3" fill="#0a0804" opacity="0.5"/>
-    <rect x="362" y="102" width="3" height="3" rx="0.3" fill="#0a0804" opacity="0.5"/>
-    <rect x="354" y="112" width="3" height="3" rx="0.3" fill="#0a0804" opacity="0.4"/>
-    <rect x="362" y="112" width="3" height="3" rx="0.3" fill="#ff6600" opacity="0.4"/>
+    <!-- ── RIGHT SIDE RUINS (bigger) ──────────────────── -->
+    <rect x="348" y="78" width="32" height="95" rx="1" fill="#221a12"/>
+    <path d="M348,78 L356,68 L366,76 L380,78" fill="#221a12"/>
+    <rect x="354" y="88"  width="5" height="4" rx="0.3" fill="#0e0a06" opacity="0.6"/>
+    <rect x="365" y="88"  width="5" height="4" rx="0.3" fill="#0e0a06" opacity="0.6"/>
+    <rect x="354" y="102" width="5" height="4" rx="0.3" fill="#0e0a06" opacity="0.5"/>
+    <rect x="365" y="102" width="5" height="4" rx="0.3" fill="#ff6600" opacity="0.4"/>
+    <rect x="365" y="102" width="5" height="4" rx="0.3" fill="#ff6600" opacity="0.15" filter="url(#fglow)"/>
+    <rect x="354" y="116" width="5" height="4" rx="0.3" fill="#0e0a06" opacity="0.4"/>
+    <rect x="365" y="116" width="5" height="4" rx="0.3" fill="#0e0a06" opacity="0.4"/>
 
     <!-- Ground / wasteland floor -->
     <path d="M0,168 Q98,158 195,162 Q292,158 390,168 L390,210 L0,210 Z"
@@ -535,18 +574,19 @@
     <ellipse cx="195" cy="180" rx="160" ry="18" fill="#39ff14" opacity="0.04" filter="url(#fglow)"/>
 
     <!-- Smoke from ruins -->
-    <g opacity="0.18">
-      <ellipse cx="26" cy="78" rx="15" ry="8" fill="#2a1c0c" filter="url(#fsmoke)">
-        <animate attributeName="cy" values="78;72;78" dur="6s" repeatCount="indefinite"/>
-        <animate attributeName="opacity" values="0.15;0.25;0.15" dur="6s" repeatCount="indefinite"/>
+    <g opacity="0.30">
+      <ellipse cx="26" cy="58" rx="20" ry="12" fill="#2a1c0c" filter="url(#fsmoke)">
+        <animate attributeName="cy" values="58;48;58" dur="6s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.2;0.35;0.2" dur="6s" repeatCount="indefinite"/>
       </ellipse>
-      <ellipse cx="357" cy="85" rx="12" ry="6" fill="#2a1c0c" filter="url(#fsmoke)">
-        <animate attributeName="cy" values="85;80;85" dur="5s" repeatCount="indefinite"/>
+      <ellipse cx="365" cy="65" rx="18" ry="10" fill="#2a1c0c" filter="url(#fsmoke)">
+        <animate attributeName="cy" values="65;55;65" dur="5s" repeatCount="indefinite"/>
       </ellipse>
     </g>
 
-    <!-- Distant fire glow -->
-    <ellipse cx="160" cy="68" rx="25" ry="8" fill="#ff4400" opacity="0.08" filter="url(#fsmoke)"/>
+    <!-- Fire glow behind buildings -->
+    <ellipse cx="25" cy="70" rx="30" ry="18" fill="#ff4400" opacity="0.10" filter="url(#fsmoke)"/>
+    <ellipse cx="362" cy="75" rx="25" ry="15" fill="#ff4400" opacity="0.08" filter="url(#fsmoke)"/>
   </svg>
 </div>
 
