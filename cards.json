@@ -4,5 +4,11 @@
     "title": "Google TechTank",
     "date": "Feb 2026",
     "description": "Google TechTank event"
+  },
+  {
+    "folder": "2026_03_AIdevs4",
+    "title": "AI Devs 4",
+    "date": "Mar 2026",
+    "description": "AI Devs 4 event"
   }
 ]

@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=390, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Jarek Pawelczyk @ AI Devs 4</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Raleway:wght@300;400;600&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 390px;
+      height: 844px;
+      overflow: hidden;
+      position: relative;
+      background: #0a0806;
+    }
+
+    /* ── BACKGROUND ─────────────────────────────────────────── */
+    .bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 420px 420px at 195px 410px, rgba(40,180,40,0.18) 0%, transparent 68%),
+        radial-gradient(ellipse 280px 280px at 195px 410px, rgba(200,120,0,0.12) 0%, transparent 62%),
+        linear-gradient(180deg, #1a1008 0%, #0d0a04 25%, #0a0806 55%, #0c0904 80%, #080604 100%);
+    }
+
+    /* ── EMBERS (floating sparks) ─────────────────────────── */
+    .ember {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 5;
+      animation: emberFloat var(--ef) ease-in-out infinite,
+                 emberGlow  var(--ef2) ease-in-out infinite;
+    }
+    .ember.green {
+      background: radial-gradient(circle, rgba(57,255,20,0.95) 0%, rgba(0,200,40,0.5) 45%, transparent 80%);
+    }
+    .ember.orange {
+      background: radial-gradient(circle, rgba(255,160,20,0.95) 0%, rgba(255,100,0,0.5) 45%, transparent 80%);
+    }
+    @keyframes emberFloat {
+      0%   { transform: translate(0px, 0px); }
+      25%  { transform: translate(var(--x1), var(--y1)); }
+      50%  { transform: translate(var(--x2), var(--y2)); }
+      75%  { transform: translate(var(--x3), var(--y3)); }
+      100% { transform: translate(0px, 0px); }
+    }
+    @keyframes emberGlow {
+      0%, 100% { opacity: 0.05; }
+      50%       { opacity: 0.80; }
+    }
+
+    /* ── CARD ───────────────────────────────────────────────── */
+    .card {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -53%);
+      width: 288px;
+      background: rgba(10, 8, 4, 0.78);
+      backdrop-filter: blur(22px) saturate(1.8);
+      -webkit-backdrop-filter: blur(22px) saturate(1.8);
+      border: 1px solid rgba(57,255,20,0.20);
+      border-radius: 28px;
+      padding: 18px 20px 16px;
+      text-align: center;
+      box-shadow:
+        0 0 0 1px rgba(57,255,20,0.08),
+        0 12px 70px rgba(0,0,0,0.80),
+        0 0 50px rgba(57,255,20,0.06),
+        inset 0 1px 0 rgba(57,255,20,0.12);
+      z-index: 10;
+    }
+    .card::before, .card::after {
+      content: '';
+      position: absolute;
+      width: 32px; height: 32px;
+      border-color: rgba(57,255,20,0.40);
+      border-style: solid;
+    }
+    .card::before { top:10px; left:10px; border-width:2px 0 0 2px; border-radius:6px 0 0 0; }
+    .card::after  { bottom:10px; right:10px; border-width:0 2px 2px 0; border-radius:0 0 6px 0; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(57,255,20,0.06);
+      border: 1px solid rgba(57,255,20,0.22);
+      border-radius: 20px;
+      padding: 4px 11px 4px 8px;
+      margin-bottom: 11px;
+    }
+    .badge-dot {
+      width: 6px; height: 6px;
+      background: #39ff14;
+      border-radius: 50%;
+      animation: bdPulse 2.2s ease-in-out infinite;
+    }
+    @keyframes bdPulse {
+      0%,100% { box-shadow: 0 0 4px #39ff14; }
+      50%      { box-shadow: 0 0 10px #39ff14, 0 0 22px rgba(57,255,20,0.4); }
+    }
+    .badge-text {
+      font-size: 8.5px; font-weight: 600;
+      letter-spacing: 0.13em; text-transform: uppercase;
+      color: rgba(255,255,255,0.68);
+      font-family: 'Raleway', sans-serif;
+    }
+
+    .name {
+      font-family: 'Cinzel', serif;
+      font-size: 14px; font-weight: 700;
+      letter-spacing: 0.06em; color: #fff;
+      text-shadow: 0 0 22px rgba(57,255,20,0.45);
+      margin-bottom: 3px;
+    }
+    .role {
+      font-family: 'Raleway', sans-serif;
+      font-size: 8.5px; font-weight: 300;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: rgba(57,255,20,0.50);
+      margin-bottom: 13px;
+    }
+
+    .qr-wrap {
+      position: relative;
+      display: inline-block;
+      padding: 9px;
+      border-radius: 14px;
+      background: rgba(246,251,240,0.97);
+      box-shadow:
+        0 0 0 1px rgba(57,255,20,0.30),
+        0 0 28px rgba(57,255,20,0.18),
+        0 5px 22px rgba(0,0,0,0.5);
+      margin-bottom: 13px;
+    }
+    .qr-glow {
+      position: absolute;
+      inset: -5px;
+      border-radius: 18px;
+      pointer-events: none;
+      animation: qrg 3.5s ease-in-out infinite alternate;
+    }
+    @keyframes qrg {
+      from { box-shadow: 0 0 14px 3px rgba(57,255,20,0.10); }
+      to   { box-shadow: 0 0 32px 9px rgba(57,255,20,0.28); }
+    }
+    #qrcode canvas, #qrcode img { display:block; border-radius:5px; }
+
+    .scan-label {
+      font-family: 'Raleway', sans-serif;
+      font-size: 7.5px; letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: rgba(57,255,20,0.40);
+      margin-bottom: 8px;
+    }
+    .linkedin-handle {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-family: 'Raleway', sans-serif;
+      font-size: 10.5px; font-weight: 600;
+      color: rgba(220,255,220,0.9);
+      letter-spacing: 0.04em;
+      padding: 5px 12px;
+      border-radius: 20px;
+      background: rgba(20,80,10,0.35);
+      border: 1px solid rgba(57,255,20,0.25);
+    }
+    .divider {
+      width: 48px; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(57,255,20,0.38), transparent);
+      margin: 11px auto;
+    }
+    .event-label {
+      font-family: 'Raleway', sans-serif;
+      font-size: 7px; letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: rgba(57,255,20,0.38);
+    }
+
+    /* ── FOREGROUND ─────────────────────────────────────────── */
+    .foreground {
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%; height: 210px;
+      pointer-events: none;
+      z-index: 7;
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg"></div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     POST-APOCALYPTIC WASTELAND SCENE
+     Toxic sky, dust storms, radiation
+     ═══════════════════════════════════════════════════════════ -->
+<svg style="position:absolute;inset:0;width:100%;height:100%;z-index:2;"
+     viewBox="0 0 390 844" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- GLOW FILTERS -->
+    <filter id="fgreen" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="forange" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="fsoft" x="-200%" y="-200%" width="500%" height="500%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="14"/>
+    </filter>
+    <filter id="fmist" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="4"/>
+    </filter>
+    <filter id="fdust" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
+
+    <!-- GRADIENTS -->
+    <radialGradient id="toxicCore" cx="50%" cy="38%" r="45%">
+      <stop offset="0%"   stop-color="#39ff14" stop-opacity="0.15"/>
+      <stop offset="40%"  stop-color="#1a8a0a" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="sunGlow" cx="72%" cy="12%" r="35%">
+      <stop offset="0%"   stop-color="#ff6600" stop-opacity="0.30"/>
+      <stop offset="30%"  stop-color="#cc4400" stop-opacity="0.15"/>
+      <stop offset="70%"  stop-color="#662200" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#2a1505"/>
+      <stop offset="30%"  stop-color="#1a0e04"/>
+      <stop offset="60%"  stop-color="#0c0a04"/>
+      <stop offset="100%" stop-color="#080604"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Toxic sky gradient -->
+  <rect x="0" y="0" width="390" height="844" fill="url(#skyGrad)"/>
+
+  <!-- Apocalyptic sun (dim, orange, low on horizon) -->
+  <rect x="0" y="0" width="390" height="400" fill="url(#sunGlow)"/>
+  <circle cx="310" cy="95" r="28" fill="#ff5500" opacity="0.12" filter="url(#fsoft)"/>
+  <circle cx="310" cy="95" r="14" fill="#ff7722" opacity="0.20" filter="url(#fmist)"/>
+  <circle cx="310" cy="95" r="6"  fill="#ffaa44" opacity="0.35"/>
+
+  <!-- Toxic green atmospheric glow -->
+  <rect x="0" y="0" width="390" height="844" fill="url(#toxicCore)"/>
+
+  <!-- ── DUST STORM STREAKS ────────────────────────────── -->
+  <g fill="none" stroke-linecap="round" opacity="0.6">
+    <path d="M -10,68  Q 95,58  218,72  Q 312,82  400,65"   stroke="#3a2a12" stroke-width="1.2" opacity="0.20"/>
+    <path d="M -10,142 Q 120,128 250,140 Q 340,148 400,135" stroke="#2e2010" stroke-width="1.0" opacity="0.18"/>
+    <path d="M -10,218 Q 140,202 280,215 Q 350,222 400,210" stroke="#33240e" stroke-width="0.9" opacity="0.16"/>
+    <path d="M 400,310 Q 260,298 130,308 Q 40,315 -10,305"  stroke="#2e2010" stroke-width="1.1" opacity="0.17"/>
+    <path d="M -10,520 Q 160,505 320,518 Q 370,522 400,515" stroke="#2a1c0c" stroke-width="0.8" opacity="0.14"/>
+    <path d="M 400,605 Q 240,592 100,602 Q 30,608 -10,598"  stroke="#2a1c0c" stroke-width="0.9" opacity="0.15"/>
+
+    <path d="M -10,40  Q 80,65  180,55  Q 280,45  390,70"  stroke="#3a2a14" stroke-width="0.7" opacity="0.12"/>
+    <path d="M -10,180 Q 100,195 200,185 Q 310,175 400,195" stroke="#33220e" stroke-width="0.6" opacity="0.11"/>
+    <path d="M -10,360 Q 120,348 240,358 Q 340,366 400,352" stroke="#2e1e0c" stroke-width="0.7" opacity="0.13"/>
+  </g>
+
+  <!-- ── RADIATION HAZARD RING ─────────────────────────── -->
+  <circle cx="195" cy="410" r="193" stroke="#39ff14" stroke-width="2"
+    fill="none" opacity="0.12" filter="url(#fsoft)"/>
+
+  <circle cx="195" cy="410" r="190" stroke="#2a5a10" stroke-width="4" fill="none" opacity="0.45"/>
+  <circle cx="195" cy="410" r="196" stroke="#1a3a08" stroke-width="2" fill="none" opacity="0.30"/>
+
+  <!-- Rotating hazard segments -->
+  <g opacity="0.22" stroke="#39ff14" fill="none">
+    <circle cx="195" cy="410" r="193" stroke-width="8" stroke-dasharray="40 1173" stroke-linecap="round">
+      <animateTransform attributeName="transform" type="rotate"
+        from="0 195 410" to="360 195 410" dur="8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  <g opacity="0.15" stroke="#ff6600" fill="none">
+    <circle cx="195" cy="410" r="193" stroke-width="6" stroke-dasharray="30 1183" stroke-linecap="round">
+      <animateTransform attributeName="transform" type="rotate"
+        from="120 195 410" to="-240 195 410" dur="12s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- Pulsing green energy arcs -->
+  <g stroke="#39ff14" fill="none" stroke-linecap="round" filter="url(#fgreen)">
+    <path d="M195,410 Q230,350 270,275" stroke-width="1.4" opacity="0.35">
+      <animate attributeName="opacity" values="0.1;0.4;0.1" dur="3s" repeatCount="indefinite"/>
+    </path>
+    <path d="M195,410 Q160,340 130,260" stroke-width="1.2" opacity="0.30">
+      <animate attributeName="opacity" values="0.05;0.35;0.05" dur="4s" repeatCount="indefinite"/>
+    </path>
+    <path d="M195,410 Q250,430 330,420" stroke-width="1.0" opacity="0.25">
+      <animate attributeName="opacity" values="0.08;0.3;0.08" dur="3.5s" repeatCount="indefinite"/>
+    </path>
+    <path d="M195,410 Q140,440 60,435" stroke-width="1.0" opacity="0.25">
+      <animate attributeName="opacity" values="0.05;0.28;0.05" dur="4.5s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- Orange energy arcs -->
+  <g stroke="#ff6600" fill="none" stroke-linecap="round" filter="url(#forange)">
+    <path d="M195,410 Q220,460 260,540" stroke-width="1.2" opacity="0.28">
+      <animate attributeName="opacity" values="0.08;0.3;0.08" dur="3.8s" repeatCount="indefinite"/>
+    </path>
+    <path d="M195,410 Q170,465 140,550" stroke-width="1.0" opacity="0.22">
+      <animate attributeName="opacity" values="0.05;0.25;0.05" dur="4.2s" repeatCount="indefinite"/>
+    </path>
+  </g>
+
+  <!-- Scattered radiation sparks -->
+  <g fill="#39ff14">
+    <circle cx="80"  cy="180" r="1.2" opacity="0.3">
+      <animate attributeName="opacity" values="0.05;0.4;0.05" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="320" cy="220" r="1.0" opacity="0.25">
+      <animate attributeName="opacity" values="0.05;0.35;0.05" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="55"  cy="340" r="1.4" opacity="0.35">
+      <animate attributeName="opacity" values="0.08;0.45;0.08" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="340" cy="380" r="1.0" opacity="0.25">
+      <animate attributeName="opacity" values="0.05;0.3;0.05" dur="3.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="45"  cy="500" r="1.2" opacity="0.28">
+      <animate attributeName="opacity" values="0.06;0.35;0.06" dur="2.9s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="350" cy="550" r="0.9" opacity="0.22">
+      <animate attributeName="opacity" values="0.04;0.28;0.04" dur="3.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- Faint radiation trefoil watermark behind card -->
+  <g opacity="0.06" transform="translate(195,410)">
+    <path d="M0,-60 A30,30 0 0,1 52,-30 A60,60 0 0,0 0,-60Z" fill="#39ff14"/>
+    <path d="M52,-30 A30,30 0 0,1 52,30 A60,60 0 0,0 52,-30Z" fill="#39ff14" transform="rotate(120)"/>
+    <path d="M52,-30 A30,30 0 0,1 52,30 A60,60 0 0,0 52,-30Z" fill="#39ff14" transform="rotate(240)"/>
+    <circle cx="0" cy="0" r="18" fill="#39ff14"/>
+    <circle cx="0" cy="0" r="12" fill="#0a0806"/>
+  </g>
+
+  <!-- ── CRACKED GROUND TEXTURE ──────────────────────── -->
+  <g stroke="#1a1408" stroke-width="0.8" fill="none" opacity="0.4">
+    <path d="M0,750 L45,742 L80,755 L120,738 L165,750 L200,740 L240,752 L285,736 L320,748 L360,740 L390,752"/>
+    <path d="M45,742 L55,770"/>
+    <path d="M120,738 L130,765 L115,790"/>
+    <path d="M200,740 L210,768"/>
+    <path d="M285,736 L275,762 L290,785"/>
+    <path d="M360,740 L370,770"/>
+  </g>
+</svg>
+
+<!-- Embers layer -->
+<div id="embers" style="position:absolute;inset:0;z-index:5;pointer-events:none;"></div>
+
+<!-- ── CARD ──────────────────────────────────────────────────── -->
+<div class="card">
+  <div class="badge">
+    <div class="badge-dot"></div>
+    <span class="badge-text">AI Devs 4 · Wrocław</span>
+  </div>
+  <div class="name">Jarek Pawelczyk</div>
+  <div class="role">Software Engineer</div>
+  <div class="qr-wrap">
+    <div class="qr-glow"></div>
+    <div id="qrcode"></div>
+  </div>
+  <div class="scan-label">Scan to connect</div>
+  <div class="linkedin-handle">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="#39ff14">
+      <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+    </svg>
+    /jaroslawpawelczyk
+  </div>
+  <div class="divider"></div>
+  <div class="event-label">Survive · Build · Deploy</div>
+</div>
+
+<!-- ── FOREGROUND: Post-apo Wrocław skyline ────────────────── -->
+<div class="foreground">
+  <svg viewBox="0 0 390 210" xmlns="http://www.w3.org/2000/svg"
+       style="width:100%;height:100%;display:block;">
+    <defs>
+      <linearGradient id="ruinGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#1a1208"/>
+        <stop offset="100%" stop-color="#0e0a04"/>
+      </linearGradient>
+      <linearGradient id="bridgeGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#1e1610"/>
+        <stop offset="100%" stop-color="#0c0804"/>
+      </linearGradient>
+      <linearGradient id="groundGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#14100a"/>
+        <stop offset="100%" stop-color="#080604"/>
+      </linearGradient>
+      <linearGradient id="waterGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#0a1208"/>
+        <stop offset="100%" stop-color="#060a04"/>
+      </linearGradient>
+      <filter id="fglow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="3"/>
+      </filter>
+      <filter id="fsmoke" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="6"/>
+      </filter>
+    </defs>
+
+    <!-- Distant wasteland hills -->
+    <path d="M0,95 L30,78 L65,88 L100,68 L140,80 L175,62 L210,75 L250,58 L285,72 L320,60 L355,74 L390,65 L390,210 L0,210 Z"
+      fill="url(#ruinGrad)" opacity="0.9"/>
+
+    <!-- Haze / dust at horizon -->
+    <rect x="0" y="70" width="390" height="40" fill="#1a1008" opacity="0.5" filter="url(#fsmoke)"/>
+
+    <!-- ── SKY TOWER (right side, damaged) ──────────────── -->
+    <rect x="318" y="42" width="14" height="130" rx="2" fill="#181210"/>
+    <rect x="310" y="82" width="30" height="12" rx="3" fill="#1e1610"/>
+    <rect x="312" y="78" width="26" height="5"  rx="2" fill="#201810"/>
+    <line x1="325" y1="42" x2="325" y2="18" stroke="#181210" stroke-width="3"/>
+    <line x1="325" y1="18" x2="325" y2="6"  stroke="#181210" stroke-width="1.5"/>
+    <!-- Antenna light (radioactive green blink) -->
+    <circle cx="325" cy="5" r="2.5" fill="#39ff14" opacity="0.9">
+      <animate attributeName="opacity" values="0.3;0.9;0.3" dur="1.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="325" cy="5" r="7" fill="#39ff14" opacity="0.2" filter="url(#fglow)">
+      <animate attributeName="opacity" values="0.08;0.25;0.08" dur="1.8s" repeatCount="indefinite"/>
+    </circle>
+    <!-- Damage marks -->
+    <path d="M318,100 L322,95 L320,105" stroke="#0e0a04" stroke-width="1" fill="none" opacity="0.6"/>
+    <path d="M332,68 L329,72 L333,75" stroke="#0e0a04" stroke-width="0.8" fill="none" opacity="0.5"/>
+    <line x1="320" y1="94" x2="330" y2="94" stroke="#14100a" stroke-width="0.5" opacity="0.4"/>
+    <line x1="320" y1="108" x2="330" y2="108" stroke="#14100a" stroke-width="0.5" opacity="0.4"/>
+    <line x1="320" y1="120" x2="330" y2="120" stroke="#14100a" stroke-width="0.5" opacity="0.4"/>
+
+    <!-- ── GRUNWALDZKI BRIDGE (center, battle-scarred) ──── -->
+    <rect x="60" y="128" width="260" height="8" rx="1" fill="url(#bridgeGrad)"/>
+
+    <!-- Left pylon -->
+    <rect x="105" y="80" width="8" height="56" fill="#1c1410"/>
+    <rect x="100" y="76" width="18" height="8" rx="1" fill="#201810"/>
+    <!-- Right pylon -->
+    <rect x="245" y="80" width="8" height="56" fill="#1c1410"/>
+    <rect x="240" y="76" width="18" height="8" rx="1" fill="#201810"/>
+
+    <!-- Suspension cables (some broken) -->
+    <g stroke="#2a2018" stroke-width="1.2" fill="none">
+      <path d="M109,80 Q85,105 60,130"/>
+      <path d="M109,80 Q90,100 72,128"/>
+      <path d="M109,80 Q95,98 85,128"/>
+      <path d="M109,80 Q100,95 95,128"/>
+      <path d="M249,80 Q275,105 300,130"/>
+      <path d="M249,80 Q265,100 285,128"/>
+      <path d="M249,80 Q258,95 272,128"/>
+      <path d="M109,80 Q130,100 150,128"/>
+      <path d="M109,80 Q140,95 165,128"/>
+      <path d="M249,80 Q228,100 210,128"/>
+      <path d="M249,80 Q220,95 195,128"/>
+      <!-- Broken cable dangling -->
+      <path d="M109,80 Q155,92 175,108" stroke-width="1" opacity="0.5"/>
+      <path d="M175,108 L178,125" stroke-width="0.8" opacity="0.4"/>
+    </g>
+
+    <!-- Bridge railing fragments -->
+    <g stroke="#1e1610" stroke-width="0.6" opacity="0.5">
+      <line x1="70"  y1="126" x2="70"  y2="130"/>
+      <line x1="80"  y1="126" x2="80"  y2="130"/>
+      <line x1="90"  y1="126" x2="90"  y2="130"/>
+      <line x1="140" y1="126" x2="140" y2="130"/>
+      <line x1="150" y1="126" x2="150" y2="130"/>
+      <line x1="210" y1="126" x2="210" y2="130"/>
+      <line x1="220" y1="126" x2="220" y2="130"/>
+      <line x1="270" y1="126" x2="270" y2="130"/>
+      <line x1="280" y1="126" x2="280" y2="130"/>
+      <line x1="290" y1="126" x2="290" y2="130"/>
+    </g>
+
+    <!-- ── RIVER ODRA (toxic water) ────────────────────── -->
+    <path d="M0,145 Q98,138 195,142 Q292,138 390,145 L390,170 Q292,162 195,166 Q98,162 0,170 Z"
+      fill="url(#waterGrad)" opacity="0.8"/>
+    <!-- Toxic green reflections -->
+    <ellipse cx="195" cy="155" rx="120" ry="8" fill="#39ff14" opacity="0.04" filter="url(#fglow)"/>
+    <ellipse cx="325" cy="153" rx="20" ry="5" fill="#39ff14" opacity="0.06" filter="url(#fglow)"/>
+
+    <!-- ── RUINED BUILDINGS (left) ─────────────────────── -->
+    <rect x="10" y="88" width="30" height="80" rx="1" fill="#161008"/>
+    <rect x="10" y="82" width="25" height="88" rx="1" fill="#181210"/>
+    <path d="M10,82 L15,78 L20,82 L28,76 L35,82" fill="#181210"/>
+    <rect x="14" y="90"  width="4" height="3" rx="0.5" fill="#0a0804" opacity="0.6"/>
+    <rect x="22" y="90"  width="4" height="3" rx="0.5" fill="#0a0804" opacity="0.6"/>
+    <rect x="14" y="100" width="4" height="3" rx="0.5" fill="#0a0804" opacity="0.5"/>
+    <rect x="22" y="100" width="4" height="3" rx="0.5" fill="#0a0804" opacity="0.5"/>
+    <rect x="14" y="110" width="4" height="3" rx="0.5" fill="#0a0804" opacity="0.5"/>
+    <!-- One window with firelight -->
+    <rect x="22" y="110" width="4" height="3" rx="0.5" fill="#ff6600" opacity="0.6"/>
+    <rect x="22" y="110" width="4" height="3" rx="0.5" fill="#ff6600" opacity="0.2" filter="url(#fglow)"/>
+
+    <rect x="44" y="98" width="20" height="70" rx="1" fill="#141008"/>
+    <path d="M44,98 L50,92 L58,96 L64,98" fill="#141008"/>
+    <rect x="48" y="105" width="3" height="3" rx="0.3" fill="#0a0804" opacity="0.5"/>
+    <rect x="55" y="105" width="3" height="3" rx="0.3" fill="#0a0804" opacity="0.4"/>
+    <rect x="48" y="115" width="3" height="3" rx="0.3" fill="#0a0804" opacity="0.4"/>
+
+    <!-- ── RIGHT SIDE RUINS ───────────────────────────── -->
+    <rect x="350" y="95" width="22" height="78" rx="1" fill="#161008"/>
+    <path d="M350,95 L356,88 L362,92 L372,95" fill="#161008"/>
+    <rect x="354" y="102" width="3" height="3" rx="0.3" fill="#0a0804" opacity="0.5"/>
+    <rect x="362" y="102" width="3" height="3" rx="0.3" fill="#0a0804" opacity="0.5"/>
+    <rect x="354" y="112" width="3" height="3" rx="0.3" fill="#0a0804" opacity="0.4"/>
+    <rect x="362" y="112" width="3" height="3" rx="0.3" fill="#ff6600" opacity="0.4"/>
+
+    <!-- Ground / wasteland floor -->
+    <path d="M0,168 Q98,158 195,162 Q292,158 390,168 L390,210 L0,210 Z"
+      fill="url(#groundGrad)"/>
+
+    <!-- Rubble / debris -->
+    <g fill="#14100a" opacity="0.6">
+      <rect x="15"  y="166" width="8"  height="4" rx="1" transform="rotate(-8 19 168)"/>
+      <rect x="55"  y="170" width="5"  height="3" rx="0.5" transform="rotate(12 57 171)"/>
+      <rect x="140" y="164" width="6"  height="3" rx="0.5" transform="rotate(-5 143 165)"/>
+      <rect x="240" y="166" width="7"  height="3" rx="0.5" transform="rotate(8 243 167)"/>
+      <rect x="345" y="168" width="5"  height="3" rx="0.5" transform="rotate(-10 347 169)"/>
+      <polygon points="85,168 92,165 95,170" opacity="0.5"/>
+      <polygon points="300,166 308,163 310,169" opacity="0.4"/>
+    </g>
+
+    <!-- Toxic ground glow -->
+    <ellipse cx="195" cy="180" rx="160" ry="18" fill="#39ff14" opacity="0.04" filter="url(#fglow)"/>
+
+    <!-- Smoke from ruins -->
+    <g opacity="0.18">
+      <ellipse cx="26" cy="78" rx="15" ry="8" fill="#2a1c0c" filter="url(#fsmoke)">
+        <animate attributeName="cy" values="78;72;78" dur="6s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.15;0.25;0.15" dur="6s" repeatCount="indefinite"/>
+      </ellipse>
+      <ellipse cx="357" cy="85" rx="12" ry="6" fill="#2a1c0c" filter="url(#fsmoke)">
+        <animate attributeName="cy" values="85;80;85" dur="5s" repeatCount="indefinite"/>
+      </ellipse>
+    </g>
+
+    <!-- Distant fire glow -->
+    <ellipse cx="160" cy="68" rx="25" ry="8" fill="#ff4400" opacity="0.08" filter="url(#fsmoke)"/>
+  </svg>
+</div>
+
+<script>
+  // ── QR CODE ──────────────────────────────────────────────────
+  new QRCode(document.getElementById('qrcode'), {
+    text: 'https://www.linkedin.com/in/jaroslawpawelczyk/',
+    width: 182,
+    height: 182,
+    colorDark:  '#0a0806',
+    colorLight: '#f0f5ea',
+    correctLevel: QRCode.CorrectLevel.H
+  });
+
+  // ── EMBERS (floating sparks) ────────────────────────────────
+  const container = document.getElementById('embers');
+  const embers = [
+    {t:8, l:12, s:4, c:'green'}, {t:15,l:82,s:3,c:'orange'}, {t:22,l:8, s:3,c:'green'},
+    {t:28,l:68,s:4,c:'orange'}, {t:35,l:92,s:3,c:'green'},  {t:42,l:5, s:4,c:'orange'},
+    {t:12,l:48,s:3,c:'green'}, {t:38,l:35,s:3,c:'green'},  {t:52,l:78,s:3,c:'orange'},
+    {t:26,l:25,s:4,c:'green'}, {t:8, l:60,s:3,c:'orange'}, {t:46,l:52,s:3,c:'green'},
+    {t:60,l:18,s:3,c:'orange'},{t:18,l:95,s:3,c:'green'},  {t:48,l:65,s:3,c:'green'},
+    {t:55,l:40,s:2,c:'orange'},{t:6, l:35,s:3,c:'green'},  {t:32,l:55,s:2,c:'green'},
+  ];
+  function r(n){ return ((Math.random()-.5)*n).toFixed(1)+'px'; }
+  embers.forEach(o => {
+    const el = document.createElement('div');
+    el.className = 'ember ' + o.c;
+    const dur = 5 + Math.random()*8, dur2 = 3 + Math.random()*5;
+    el.style.cssText = `
+      top:${o.t}%;left:${o.l}%;
+      width:${o.s}px;height:${o.s}px;
+      --ef:${dur.toFixed(1)}s;--ef2:${dur2.toFixed(1)}s;
+      --x1:${r(50)};--y1:${r(40)};
+      --x2:${r(50)};--y2:${r(40)};
+      --x3:${r(50)};--y3:${r(40)};
+      animation-delay:${(Math.random()*8).toFixed(1)}s,${(Math.random()*5).toFixed(1)}s;
+    `;
+    container.appendChild(el);
+  });
+</script>
+</body>
+</html>
