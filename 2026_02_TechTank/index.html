@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=390, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Jarek Pawelczyk @ Google TechTank</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Raleway:wght@300;400;600&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 390px;
+      height: 844px;
+      overflow: hidden;
+      position: relative;
+      background: #060e20;
+    }
+
+    /* ── BACKGROUND ─────────────────────────────────────────── */
+    .bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 420px 420px at 195px 410px, rgba(0,100,220,0.38) 0%, transparent 68%),
+        radial-gradient(ellipse 280px 280px at 195px 410px, rgba(200,0,120,0.18) 0%, transparent 62%),
+        linear-gradient(180deg, #040c1c 0%, #071428 25%, #081630 55%, #071220 80%, #050e1a 100%);
+    }
+
+    /* ── SPIRIT ORBS (Ghibli magic) ─────────────────────────── */
+    .spirit {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,224,100,0.95) 0%, rgba(255,170,0,0.5) 45%, transparent 80%);
+      pointer-events: none;
+      z-index: 5;
+      animation: spiritFloat var(--sf) ease-in-out infinite,
+                 spiritFade  var(--sf2) ease-in-out infinite;
+    }
+    @keyframes spiritFloat {
+      0%   { transform: translate(0px, 0px); }
+      25%  { transform: translate(var(--x1), var(--y1)); }
+      50%  { transform: translate(var(--x2), var(--y2)); }
+      75%  { transform: translate(var(--x3), var(--y3)); }
+      100% { transform: translate(0px, 0px); }
+    }
+    @keyframes spiritFade {
+      0%, 100% { opacity: 0.04; }
+      50%       { opacity: 0.75; }
+    }
+
+    /* ── CARD ───────────────────────────────────────────────── */
+    .card {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -53%);
+      width: 288px;
+      background: rgba(1, 6, 22, 0.68);
+      backdrop-filter: blur(22px) saturate(1.9);
+      -webkit-backdrop-filter: blur(22px) saturate(1.9);
+      border: 1px solid rgba(0, 200, 255, 0.18);
+      border-radius: 28px;
+      padding: 18px 20px 16px;
+      text-align: center;
+      box-shadow:
+        0 0 0 1px rgba(0,140,255,0.07),
+        0 12px 70px rgba(0,0,0,0.75),
+        0 0 50px rgba(0,100,255,0.07),
+        inset 0 1px 0 rgba(0,220,255,0.1);
+      z-index: 10;
+    }
+    .card::before, .card::after {
+      content: '';
+      position: absolute;
+      width: 32px; height: 32px;
+      border-color: rgba(0, 210, 255, 0.38);
+      border-style: solid;
+    }
+    .card::before { top:10px; left:10px; border-width:2px 0 0 2px; border-radius:6px 0 0 0; }
+    .card::after  { bottom:10px; right:10px; border-width:0 2px 2px 0; border-radius:0 0 6px 0; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(0,200,255,0.2);
+      border-radius: 20px;
+      padding: 4px 11px 4px 8px;
+      margin-bottom: 11px;
+    }
+    .badge-dot {
+      width: 6px; height: 6px;
+      background: #00e5ff;
+      border-radius: 50%;
+      animation: bdPulse 2.2s ease-in-out infinite;
+    }
+    @keyframes bdPulse {
+      0%,100% { box-shadow: 0 0 4px #00e5ff; }
+      50%      { box-shadow: 0 0 10px #00e5ff, 0 0 22px rgba(0,229,255,0.4); }
+    }
+    .badge-text {
+      font-size: 8.5px; font-weight: 600;
+      letter-spacing: 0.13em; text-transform: uppercase;
+      color: rgba(255,255,255,0.68);
+      font-family: 'Raleway', sans-serif;
+    }
+
+    .name {
+      font-family: 'Cinzel', serif;
+      font-size: 14px; font-weight: 700;
+      letter-spacing: 0.06em; color: #fff;
+      text-shadow: 0 0 22px rgba(0,210,255,0.55);
+      margin-bottom: 3px;
+    }
+    .role {
+      font-family: 'Raleway', sans-serif;
+      font-size: 8.5px; font-weight: 300;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: rgba(0,210,255,0.52);
+      margin-bottom: 13px;
+    }
+
+    .qr-wrap {
+      position: relative;
+      display: inline-block;
+      padding: 9px;
+      border-radius: 14px;
+      background: rgba(246,251,255,0.97);
+      box-shadow:
+        0 0 0 1px rgba(0,180,255,0.28),
+        0 0 28px rgba(0,150,255,0.22),
+        0 5px 22px rgba(0,0,0,0.5);
+      margin-bottom: 13px;
+    }
+    .qr-glow {
+      position: absolute;
+      inset: -5px;
+      border-radius: 18px;
+      pointer-events: none;
+      animation: qrg 3.5s ease-in-out infinite alternate;
+    }
+    @keyframes qrg {
+      from { box-shadow: 0 0 14px 3px rgba(0,180,255,0.13); }
+      to   { box-shadow: 0 0 32px 9px rgba(0,210,255,0.32); }
+    }
+    #qrcode canvas, #qrcode img { display:block; border-radius:5px; }
+
+    .scan-label {
+      font-family: 'Raleway', sans-serif;
+      font-size: 7.5px; letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: rgba(0,200,255,0.45);
+      margin-bottom: 8px;
+    }
+    .linkedin-handle {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-family: 'Raleway', sans-serif;
+      font-size: 10.5px; font-weight: 600;
+      color: rgba(200,235,255,0.9);
+      letter-spacing: 0.04em;
+      padding: 5px 12px;
+      border-radius: 20px;
+      background: rgba(0,70,150,0.32);
+      border: 1px solid rgba(0,150,255,0.28);
+    }
+    .divider {
+      width: 48px; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0,200,255,0.38), transparent);
+      margin: 11px auto;
+    }
+    .event-label {
+      font-family: 'Raleway', sans-serif;
+      font-size: 7px; letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: rgba(0,210,255,0.42);
+    }
+
+    /* ── FOREGROUND ─────────────────────────────────────────── */
+    .foreground {
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%; height: 185px;
+      pointer-events: none;
+      z-index: 7;
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg"></div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CERN PHYSICS SCENE  (SVG, centered ring at 195,410)
+     Ring r=193 → circumference ≈ 1213px
+     ═══════════════════════════════════════════════════════════ -->
+<svg style="position:absolute;inset:0;width:100%;height:100%;z-index:2;"
+     viewBox="0 0 390 844" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- GLOW FILTERS -->
+    <filter id="fcyan"   x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="fmagenta" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="fgold" x="-120%" y="-120%" width="340%" height="340%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="fsoft" x="-200%" y="-200%" width="500%" height="500%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="14"/>
+    </filter>
+    <filter id="fring" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="fbubble" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- GRADIENTS -->
+    <radialGradient id="collisionCenter" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.9"/>
+      <stop offset="25%"  stop-color="#ffe066" stop-opacity="0.6"/>
+      <stop offset="55%"  stop-color="#00e5ff" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="ambientBlue" cx="50%" cy="49%" r="42%">
+      <stop offset="0%"   stop-color="#0066ee" stop-opacity="0.45"/>
+      <stop offset="60%"  stop-color="#002299" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="ambientMag" cx="50%" cy="49%" r="28%">
+      <stop offset="0%"   stop-color="#dd0088" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Ambient atmosphere -->
+  <rect x="0" y="0" width="390" height="844" fill="url(#ambientBlue)"/>
+  <rect x="0" y="0" width="390" height="844" fill="url(#ambientMag)"/>
+
+  <!-- ── BUBBLE CHAMBER TRACES ────────────────────────────── -->
+  <g fill="none" stroke-linecap="round">
+
+    <!-- long sweeping arcs — barely visible, deep bg -->
+    <path d="M -10,38  Q 95,12  218,52  Q 312,82  400,58"   stroke="#c8f2ff" stroke-width="0.8" opacity="0.16"/>
+    <path d="M 400,119 Q 258,88  132,118 Q 44,140 -10,122"  stroke="#d0f4ff" stroke-width="0.7" opacity="0.14"/>
+    <path d="M -10,287 Q 72,258 183,278 Q 294,300 400,272"  stroke="#b8ecff" stroke-width="0.9" opacity="0.17"/>
+    <path d="M 400,433 Q 275,402 158,422 Q 58,440 -10,416"  stroke="#c0eeff" stroke-width="0.7" opacity="0.13"/>
+    <path d="M -10,604 Q 88,574 204,598 Q 318,622 400,592"  stroke="#aae4ff" stroke-width="0.8" opacity="0.15"/>
+    <path d="M 400,718 Q 262,690 138,714 Q 52,730 -10,708"  stroke="#98deff" stroke-width="0.7" opacity="0.12"/>
+    <path d="M -10,802 Q 122,775 267,798 Q 344,810 400,792"  stroke="#90d8ff" stroke-width="0.6" opacity="0.11"/>
+
+    <!-- near-vertical high-energy tracks -->
+    <path d="M 38, 0  Q 55,195  44,420 Q 33,638  22,844"  stroke="#d8f4ff" stroke-width="0.9" opacity="0.15"/>
+    <path d="M 347, 0 Q 368,218 354,440 Q 340,660 330,844" stroke="#cef0ff" stroke-width="0.8" opacity="0.13"/>
+    <path d="M 162, 0 Q 174,172 165,368 Q 155,552 144,720"  stroke="#c4eaff" stroke-width="0.7" opacity="0.12"/>
+    <path d="M 232, 0 Q 252,185 241,390 Q 229,592 218,780"  stroke="#bce6ff" stroke-width="0.6" opacity="0.11"/>
+    <path d="M 96,  0 Q 108,140  98,310 Q  88,480  80,630"  stroke="#c8eeff" stroke-width="0.7" opacity="0.13"/>
+    <path d="M 288, 0 Q 304,158 292,340 Q 280,510 268,660"  stroke="#c0e8ff" stroke-width="0.6" opacity="0.12"/>
+
+    <!-- diagonal arcs, varied angles -->
+    <path d="M 390,22  Q 304,74  248,138 Q 218,184 236,260"  stroke="#b4e8ff" stroke-width="0.8" opacity="0.18"/>
+    <path d="M   0,76  Q  78,138 108,222 Q 124,284  98,354"  stroke="#bceaff" stroke-width="0.8" opacity="0.17"/>
+    <path d="M 174,  0 Q 198,68  176,148 Q 154,228 172,308"  stroke="#b0e4ff" stroke-width="0.7" opacity="0.15"/>
+    <path d="M 390,548 Q 334,498 312,434 Q 298,376 322,318"  stroke="#b4e6ff" stroke-width="0.7" opacity="0.16"/>
+    <path d="M   0,536 Q  60,486  76,418 Q  90,358  62,302"  stroke="#bce8ff" stroke-width="0.8" opacity="0.16"/>
+    <path d="M  22,660 Q  78,612  92,548 Q 104,492  78,428"  stroke="#a8e0ff" stroke-width="0.6" opacity="0.13"/>
+    <path d="M 368,660 Q 314,608 298,542 Q 282,476 310,412"  stroke="#b0e4ff" stroke-width="0.6" opacity="0.13"/>
+    <path d="M 390,214 Q 340,268 308,338 Q 282,398 302,462"  stroke="#a8e0ff" stroke-width="0.7" opacity="0.14"/>
+    <path d="M   0,214 Q  52,268  82,340 Q 108,402  86,468"  stroke="#b0e4ff" stroke-width="0.7" opacity="0.14"/>
+
+    <!-- s-curves -->
+    <path d="M  14,488 C  52,464  88,500  76,538 C  64,576  22,584  12,620"
+      stroke="#a8deff" stroke-width="0.7" opacity="0.15"/>
+    <path d="M 376,138 C 340,112 304,148 316,188 C 328,228 372,238 382,278"
+      stroke="#b4e8ff" stroke-width="0.7" opacity="0.15"/>
+    <path d="M  18,172 C  58,148  96,186  82,226 C  68,266  24,274  14,314"
+      stroke="#a0dcff" stroke-width="0.6" opacity="0.13"/>
+    <path d="M 372,668 C 334,644 296,682 310,722 C 324,762 368,768 378,808"
+      stroke="#a8e0ff" stroke-width="0.6" opacity="0.12"/>
+
+    <!-- positron/antiparticle tint (magenta, curls opposite way) -->
+    <path d="M   0,178 Q  62,156 112,182 Q 164,208 188,198"  stroke="#ffc8dd" stroke-width="0.8" opacity="0.16"/>
+    <path d="M 390,362 Q 312,338 256,358 Q 204,378 182,365"  stroke="#ffb8d8" stroke-width="0.7" opacity="0.14"/>
+    <path d="M 128,844 Q 152,712 136,608 Q 120,506 150,424"  stroke="#ffc4da" stroke-width="0.7" opacity="0.13"/>
+    <path d="M 262,844 Q 242,720 258,614 Q 274,508 248,422"  stroke="#ffbbd6" stroke-width="0.6" opacity="0.12"/>
+    <path d="M   0,724 Q  68,700 118,722 Q 162,742 178,730"  stroke="#ffc0d8" stroke-width="0.7" opacity="0.13"/>
+
+    <!-- electron spirals — small, dim -->
+    <path d="M 304,62
+      C 338,40 364,66 356,90
+      C 348,114 322,118 314,102
+      C 306,88 312,68 318,66"
+      stroke="#88c8f0" stroke-width="0.85" opacity="0.22"/>
+    <path d="M 44,478
+      C 74,456 98,480  92,504
+      C 86,528 60,532  52,518
+      C 44,504 48,482  54,480"
+      stroke="#88c8f0" stroke-width="0.8" opacity="0.20"/>
+    <path d="M 348,582
+      C 374,558 396,584 388,608
+      C 380,632 354,634 348,618
+      C 342,602 346,584 352,582"
+      stroke="#ffaac8" stroke-width="0.75" opacity="0.19"/>
+    <path d="M 66,134
+      C 84,120 100,138  96,154
+      C 92,170  74,172  68,160
+      C 62,150  66,136  70,134"
+      stroke="#88c4ee" stroke-width="0.75" opacity="0.18"/>
+    <path d="M 184,738
+      C 210,716 234,740 226,764
+      C 218,788 192,790 186,774
+      C 180,758 184,740 188,738"
+      stroke="#88c8f0" stroke-width="0.75" opacity="0.17"/>
+    <path d="M 28,354
+      C 50,334  70,356  64,376
+      C 58,396  36,398  28,384
+      C 20,370  24,356  30,354"
+      stroke="#ffaac8" stroke-width="0.7" opacity="0.17"/>
+
+    <!-- V-events (neutral → two charged) -->
+    <path d="M 218,152 Q 172,216 136,282" stroke="#c0eaff" stroke-width="0.9" opacity="0.20"/>
+    <path d="M 218,152 Q 258,218 292,286" stroke="#ffc4dc" stroke-width="0.8" opacity="0.18"/>
+    <circle cx="218" cy="152" r="1.8" fill="#cce8ff" opacity="0.30"/>
+    <path d="M 142,564 Q  98,628  68,694" stroke="#b4e4ff" stroke-width="0.8" opacity="0.18"/>
+    <path d="M 142,564 Q 186,630 218,696" stroke="#ffbbd4" stroke-width="0.8" opacity="0.17"/>
+    <circle cx="142" cy="564" r="1.6" fill="#cce8ff" opacity="0.28"/>
+    <path d="M 318,748 Q 274,796 248,844" stroke="#b0e2ff" stroke-width="0.7" opacity="0.16"/>
+    <path d="M 318,748 Q 358,796 384,844" stroke="#ffbbd4" stroke-width="0.7" opacity="0.15"/>
+    <circle cx="318" cy="748" r="1.4" fill="#cce8ff" opacity="0.25"/>
+
+    <!-- kink / scattering events -->
+    <path d="M -10,234 Q  74,220 128,232" stroke="#bce8ff" stroke-width="0.8" opacity="0.18"/>
+    <path d="M 128,232 Q 208,248 302,228 Q 360,218 400,224" stroke="#bce8ff" stroke-width="0.8" opacity="0.18"/>
+    <circle cx="128" cy="232" r="1.5" fill="#cce8ff" opacity="0.28"/>
+    <path d="M 400,674 Q 308,660 252,672" stroke="#b0e4ff" stroke-width="0.7" opacity="0.16"/>
+    <path d="M 252,672 Q 178,686  92,668 Q 38,658 -10,664" stroke="#b0e4ff" stroke-width="0.7" opacity="0.16"/>
+    <circle cx="252" cy="672" r="1.4" fill="#cce8ff" opacity="0.25"/>
+    <path d="M 390,344 Q 314,330 268,342" stroke="#b8e6ff" stroke-width="0.7" opacity="0.16"/>
+    <path d="M 268,342 Q 194,358 112,338 Q 54,324 -10,332" stroke="#b8e6ff" stroke-width="0.7" opacity="0.16"/>
+    <circle cx="268" cy="342" r="1.4" fill="#cce8ff" opacity="0.25"/>
+
+    <!-- fork / pair-production vertices -->
+    <path d="M   0,388 Q  62,368 114,380" stroke="#c4ecff" stroke-width="0.8" opacity="0.17"/>
+    <path d="M 114,380 Q 178,356 244,340"  stroke="#c4ecff" stroke-width="0.7" opacity="0.16"/>
+    <path d="M 114,380 Q 166,416 212,444"  stroke="#ffbcd6" stroke-width="0.7" opacity="0.15"/>
+    <circle cx="114" cy="380" r="1.6" fill="#cce8ff" opacity="0.27"/>
+    <path d="M 390,106 Q 316,122 272,116" stroke="#beeaff" stroke-width="0.8" opacity="0.17"/>
+    <path d="M 272,116 Q 204,104 144,120"  stroke="#beeaff" stroke-width="0.7" opacity="0.15"/>
+    <path d="M 272,116 Q 244,154 214,190"  stroke="#ffb8d4" stroke-width="0.7" opacity="0.14"/>
+    <circle cx="272" cy="116" r="1.5" fill="#cce8ff" opacity="0.25"/>
+
+    <!-- scattered short fillers -->
+    <path d="M 248,44  Q 298,28 336,46"   stroke="#b8e8ff" stroke-width="0.6" opacity="0.15"/>
+    <path d="M  28,58  Q  68,42  96,60"   stroke="#b0e4ff" stroke-width="0.6" opacity="0.14"/>
+    <path d="M  22,790 Q  84,772 138,790" stroke="#a4d8ff" stroke-width="0.6" opacity="0.13"/>
+    <path d="M 254,794 Q 308,778 354,796" stroke="#a4d8ff" stroke-width="0.6" opacity="0.13"/>
+    <path d="M 156,828 Q 224,812 282,828" stroke="#98d4ff" stroke-width="0.5" opacity="0.11"/>
+    <path d="M  14,468 Q  54,452  84,470" stroke="#a8dcff" stroke-width="0.6" opacity="0.13"/>
+    <path d="M 306,468 Q 346,452 378,470" stroke="#a8dcff" stroke-width="0.6" opacity="0.12"/>
+    <path d="M  58,266 Q 108,248 148,268" stroke="#b0e2ff" stroke-width="0.6" opacity="0.13"/>
+    <path d="M 242,266 Q 294,248 338,268" stroke="#b0e2ff" stroke-width="0.6" opacity="0.12"/>
+  </g>
+
+  <!-- ── ATLAS DETECTOR MANDALA ────────────────────────────── -->
+  <!-- All concentric rings centered at (195, 410) -->
+
+  <!-- Outermost: Muon spectrometer chambers, 8-fold segmented -->
+  <g opacity="0.40" stroke="#00ccee" fill="none" stroke-linecap="round">
+    <circle cx="195" cy="410" r="174" stroke-width="9"  stroke-dasharray="62 14"/>
+    <circle cx="195" cy="410" r="163" stroke-width="4"  stroke-dasharray="50 26"/>
+    <circle cx="195" cy="410" r="153" stroke-width="2"  stroke-dasharray="42 30"/>
+  </g>
+
+  <!-- Detector radial spokes (16-fold symmetry) -->
+  <g opacity="0.28" stroke="#00aacc" stroke-width="1" fill="none">
+    <!-- 8 primary axes -->
+    <line x1="195" y1="236" x2="195" y2="584"/>
+    <line x1="22"  y1="410" x2="368" y2="410"/>
+    <line x1="72"  y1="287" x2="318" y2="533"/>
+    <line x1="318" y1="287" x2="72"  y2="533"/>
+    <!-- 8 secondary axes at 22.5° -->
+    <line x1="102" y1="243" x2="288" y2="577"/>
+    <line x1="288" y1="243" x2="102" y2="577"/>
+    <line x1="25"  y1="323" x2="365" y2="497"/>
+    <line x1="365" y1="323" x2="25"  y2="497"/>
+  </g>
+
+  <!-- Hadronic calorimeter (tile-cal) — sectored rings -->
+  <g opacity="0.50" stroke="#0099cc" fill="none">
+    <circle cx="195" cy="410" r="133" stroke-width="7"  stroke-dasharray="48 12"/>
+    <circle cx="195" cy="410" r="122" stroke-width="3"  stroke-dasharray="38 18"/>
+    <circle cx="195" cy="410" r="111" stroke-width="1.5" stroke-dasharray="30 22"/>
+    <circle cx="195" cy="410" r="101" stroke-width="1"  stroke-dasharray="26 26"/>
+  </g>
+
+  <!-- EM calorimeter (liquid argon accordion) -->
+  <g opacity="0.60" stroke="#00bbdd" fill="none">
+    <circle cx="195" cy="410" r="82" stroke-width="5"  stroke-dasharray="28 12"/>
+    <circle cx="195" cy="410" r="74" stroke-width="2.5" stroke-dasharray="22 14"/>
+    <circle cx="195" cy="410" r="66" stroke-width="1.5" stroke-dasharray="18 16"/>
+  </g>
+
+  <!-- Inner tracker / solenoid -->
+  <g opacity="0.75" stroke="#00ddee" fill="none">
+    <circle cx="195" cy="410" r="53" stroke-width="3.5" stroke-dasharray="16 10"/>
+    <circle cx="195" cy="410" r="46" stroke-width="1.5" stroke-dasharray="12 11"/>
+    <circle cx="195" cy="410" r="38" stroke-width="1.2" stroke-dasharray="9 11"/>
+    <circle cx="195" cy="410" r="30" stroke-width="1"/>
+    <circle cx="195" cy="410" r="22" stroke-width="0.8"/>
+    <circle cx="195" cy="410" r="14" stroke-width="0.6"/>
+  </g>
+
+  <!-- Slowly rotating outer detector wheel (Ghibli magic touch) -->
+  <g opacity="0.30" stroke="#00ccff" fill="none">
+    <circle cx="195" cy="410" r="148" stroke-width="14" stroke-dasharray="34 14">
+      <animateTransform attributeName="transform" type="rotate"
+        from="0 195 410" to="360 195 410" dur="90s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  <g opacity="0.28" stroke="#ff1188" fill="none">
+    <circle cx="195" cy="410" r="88" stroke-width="9" stroke-dasharray="22 18">
+      <animateTransform attributeName="transform" type="rotate"
+        from="0 195 410" to="-360 195 410" dur="60s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- ── LHC MAIN RING (r=193, fits 390px width exactly) ──── -->
+  <!-- Tunnel casing -->
+  <circle cx="195" cy="410" r="196" stroke="#0066aa" stroke-width="6" fill="none" opacity="0.85"/>
+  <circle cx="195" cy="410" r="190" stroke="#004488" stroke-width="2.5" fill="none" opacity="0.60"/>
+
+  <!-- Ring ambient glow -->
+  <circle cx="195" cy="410" r="193" stroke="#00ddff" stroke-width="3"
+    fill="none" opacity="0.55" filter="url(#fsoft)"/>
+
+  <!-- ── BEAM 1: clockwise cyan proton beam ──────────────────
+       Circumference ≈ 1213px  → dasharray "18 1195"        -->
+  <!-- Wide glow trail -->
+  <circle cx="195" cy="410" r="193"
+    stroke="#00e5ff" stroke-width="14" fill="none" opacity="0.30"
+    stroke-dasharray="90 1123" stroke-linecap="round">
+    <animateTransform attributeName="transform" type="rotate"
+      from="0 195 410" to="360 195 410" dur="2.6s" repeatCount="indefinite"/>
+  </circle>
+  <!-- Narrow glow trail -->
+  <circle cx="195" cy="410" r="193"
+    stroke="#00e5ff" stroke-width="5" fill="none" opacity="0.70"
+    stroke-dasharray="40 1173" stroke-linecap="round">
+    <animateTransform attributeName="transform" type="rotate"
+      from="0 195 410" to="360 195 410" dur="2.6s" repeatCount="indefinite"/>
+  </circle>
+  <!-- Bright core particle -->
+  <circle cx="195" cy="410" r="193"
+    stroke="#eefaff" stroke-width="3" fill="none" opacity="1"
+    stroke-dasharray="12 1201" stroke-linecap="round"
+    filter="url(#fcyan)">
+    <animateTransform attributeName="transform" type="rotate"
+      from="0 195 410" to="360 195 410" dur="2.6s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- ── BEAM 2: counter-clockwise magenta anti-proton beam ── -->
+  <circle cx="195" cy="410" r="193"
+    stroke="#ff2090" stroke-width="14" fill="none" opacity="0.28"
+    stroke-dasharray="90 1123" stroke-linecap="round">
+    <animateTransform attributeName="transform" type="rotate"
+      from="180 195 410" to="-180 195 410" dur="3.0s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="195" cy="410" r="193"
+    stroke="#ff2090" stroke-width="5" fill="none" opacity="0.68"
+    stroke-dasharray="40 1173" stroke-linecap="round">
+    <animateTransform attributeName="transform" type="rotate"
+      from="180 195 410" to="-180 195 410" dur="3.0s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="195" cy="410" r="193"
+    stroke="#ffccee" stroke-width="3" fill="none" opacity="1"
+    stroke-dasharray="12 1201" stroke-linecap="round"
+    filter="url(#fmagenta)">
+    <animateTransform attributeName="transform" type="rotate"
+      from="180 195 410" to="-180 195 410" dur="3.0s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- ── PARTICLE COLLISION TRACKS (origin: 195, 410) ────────
+       Inspired by real CMS/ATLAS collision event displays.
+       Curved = magnetic deflection. Dashed = neutral.        -->
+
+  <!-- Cyan tracks: electrons / muons (curve rightward) -->
+  <g stroke="#00e5ff" fill="none" stroke-linecap="round" filter="url(#fcyan)">
+    <path d="M195,410 Q225,358 258,278" stroke-width="2.0" opacity="0.95"/>
+    <path d="M195,410 Q205,340 200,240" stroke-width="2.2" opacity="1.0"/>
+    <path d="M195,410 Q280,408 345,390" stroke-width="1.6" opacity="0.85"/>
+    <path d="M195,410 Q170,340 148,260" stroke-width="1.6" opacity="0.85"/>
+    <!-- Spiral (low-energy particle stops) -->
+    <path d="M195,410 Q222,390 232,368 Q242,346 234,330 Q226,318 213,322 Q204,328 207,340"
+          stroke-width="1.4" opacity="0.75"/>
+  </g>
+
+  <!-- Magenta tracks: positrons / antimuons (curve leftward) -->
+  <g stroke="#ff2090" fill="none" stroke-linecap="round" filter="url(#fmagenta)">
+    <path d="M195,410 Q155,395  80,378" stroke-width="2.0" opacity="0.95"/>
+    <path d="M195,410 Q165,460 140,540" stroke-width="1.8" opacity="0.90"/>
+    <path d="M195,410 Q245,465 278,548" stroke-width="1.8" opacity="0.90"/>
+    <path d="M195,410 Q220,455 248,530" stroke-width="1.4" opacity="0.75"/>
+    <!-- Spiral -->
+    <path d="M195,410 Q172,422 166,444 Q160,466 172,476 Q184,486 194,478 Q200,469 196,460"
+          stroke-width="1.4" opacity="0.75"/>
+  </g>
+
+  <!-- Gold dashed: neutral particles / photons -->
+  <g stroke="#ffd166" fill="none" stroke-linecap="round" filter="url(#fgold)" opacity="0.92">
+    <path d="M195,410 L268,342" stroke-width="1.6" stroke-dasharray="5 4"/>
+    <path d="M195,410 L122,342" stroke-width="1.4" stroke-dasharray="4 5"/>
+    <path d="M195,410 L195,298" stroke-width="1.8" stroke-dasharray="6 4"/>
+    <path d="M195,410 L148,504" stroke-width="1.4" stroke-dasharray="4 5"/>
+    <path d="M195,410 L310,362" stroke-width="1.2" stroke-dasharray="3 5"/>
+  </g>
+
+  <!-- Green: hadronic jets (bundles of 3 tracks) -->
+  <g stroke="#00ff88" fill="none" stroke-linecap="round" opacity="0.75">
+    <path d="M195,410 Q215,372 258,310" stroke-width="1.6"/>
+    <path d="M195,410 Q220,370 265,305" stroke-width="1.0"/>
+    <path d="M195,410 Q212,375 252,316" stroke-width="1.0"/>
+    <!-- Opposite jet -->
+    <path d="M195,410 Q172,445 132,500" stroke-width="1.6"/>
+    <path d="M195,410 Q168,448 126,506" stroke-width="1.0"/>
+    <path d="M195,410 Q175,442 137,495" stroke-width="1.0"/>
+  </g>
+
+  <!-- Secondary-vertex tracks (B-hadron decay) -->
+  <g stroke="#88ddff" fill="none" stroke-linecap="round" opacity="0.70">
+    <path d="M230,375 Q250,340 275,295" stroke-width="1.2"/>
+    <path d="M230,375 Q260,380 310,370" stroke-width="1.0"/>
+    <circle cx="230" cy="375" r="3" fill="#88ddff" opacity="0.9"/>
+  </g>
+  <g stroke="#ff99cc" fill="none" stroke-linecap="round" opacity="0.70">
+    <path d="M160,445 Q138,475 108,515" stroke-width="1.2"/>
+    <path d="M160,445 Q145,465 112,480" stroke-width="1.0"/>
+    <circle cx="160" cy="445" r="3" fill="#ff99cc" opacity="0.9"/>
+  </g>
+
+  <!-- ── COLLISION POINT ─────────────────────────────────────── -->
+  <circle cx="195" cy="410" r="36" fill="url(#collisionCenter)" filter="url(#fsoft)" opacity="1.0"/>
+  <!-- Pulsing bright core -->
+  <circle cx="195" cy="410" r="3.5" fill="#fff" filter="url(#fcyan)">
+    <animate attributeName="r"       values="2.5;5.5;2.5"   dur="2.2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.8;1.0;0.8"   dur="2.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- Ambient glow rings inside the detector -->
+  <circle cx="195" cy="410" r="58" stroke="#00e5ff" stroke-width="1" fill="none" opacity="0.22" filter="url(#fsoft)"/>
+  <circle cx="195" cy="410" r="98" stroke="#00e5ff" stroke-width="1" fill="none" opacity="0.15" filter="url(#fsoft)"/>
+</svg>
+
+<!-- Spirit orbs layer -->
+<div id="spirits" style="position:absolute;inset:0;z-index:5;pointer-events:none;"></div>
+
+<!-- ── CARD ──────────────────────────────────────────────────── -->
+<div class="card">
+  <div class="badge">
+    <div class="badge-dot"></div>
+    <span class="badge-text">Google TechTank</span>
+  </div>
+  <div class="name">Jarek Pawelczyk</div>
+  <div class="role">Software Engineer</div>
+  <div class="qr-wrap">
+    <div class="qr-glow"></div>
+    <div id="qrcode"></div>
+  </div>
+  <div class="scan-label">Scan to connect</div>
+  <div class="linkedin-handle">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="#38bdf8">
+      <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+    </svg>
+    /jaroslawpawelczyk
+  </div>
+  <div class="divider"></div>
+  <div class="event-label">Connect · Collaborate · Create</div>
+</div>
+
+<!-- ── FOREGROUND: Jura mountains + CERN campus (Ghibli) ────── -->
+<div class="foreground">
+  <svg viewBox="0 0 390 185" xmlns="http://www.w3.org/2000/svg"
+       style="width:100%;height:100%;display:block;">
+    <defs>
+      <linearGradient id="mtGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#1a3450"/>
+        <stop offset="100%" stop-color="#0e2035"/>
+      </linearGradient>
+      <linearGradient id="mtGrad2" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#112840"/>
+        <stop offset="100%" stop-color="#091828"/>
+      </linearGradient>
+      <linearGradient id="groundGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#0d2035"/>
+        <stop offset="100%" stop-color="#070f1c"/>
+      </linearGradient>
+      <filter id="fmist" x="-10%" y="-10%" width="120%" height="120%">
+        <feGaussianBlur stdDeviation="3"/>
+      </filter>
+    </defs>
+
+    <!-- Jura mountains (far) -->
+    <path d="M0,98 L28,68 L55,82 L85,52 L115,70 L148,42 L178,60 L210,38
+             L242,56 L272,44 L302,62 L332,48 L362,66 L390,52 L390,185 L0,185 Z"
+      fill="url(#mtGrad)" opacity="1"/>
+
+    <!-- Nearer ridge -->
+    <path d="M0,115 L48,92 L96,106 L155,85 L210,98 L268,82 L325,96 L390,84
+             L390,185 L0,185 Z"
+      fill="url(#mtGrad2)" opacity="1"/>
+
+    <!-- Ground -->
+    <path d="M0,132 Q98,115 195,120 Q292,115 390,132 L390,185 L0,185 Z"
+      fill="url(#groundGrad)"/>
+
+    <!-- Horizon mist (Ghibli atmospheric depth) -->
+    <rect x="0" y="100" width="390" height="35" fill="#0a3050" opacity="0.55" filter="url(#fmist)"/>
+
+    <!-- CERN Globe of Science and Innovation (left) -->
+    <ellipse cx="75" cy="110" rx="21" ry="21" fill="#1a3050"/>
+    <ellipse cx="86" cy="114" rx="17" ry="17" fill="#142840"/>
+    <ellipse cx="80" cy="110" rx="21" ry="7"
+      stroke="#2a5080" stroke-width="1" fill="none" opacity="0.8"/>
+    <line x1="80" y1="89" x2="80" y2="131"
+      stroke="#2a5080" stroke-width="1" opacity="0.7"/>
+
+    <!-- CERN buildings (silhouettes) -->
+    <rect x="28"  y="118" width="28" height="18" rx="1" fill="#162e4a"/>
+    <rect x="60"  y="122" width="16" height="14" rx="1" fill="#162e4a"/>
+    <rect x="124" y="114" width="34" height="24" rx="1" fill="#132840"/>
+    <rect x="140" y="106" width="12" height="32" rx="1" fill="#132840"/>
+    <!-- CMS building dome (right) -->
+    <rect x="272" y="112" width="40" height="24" rx="2" fill="#122540"/>
+    <ellipse cx="292" cy="112" rx="20" ry="9" fill="#1a3050"/>
+    <rect x="322" y="116" width="24" height="20" rx="1" fill="#142840"/>
+
+    <!-- Comms tower -->
+    <line x1="150" y1="106" x2="150" y2="84" stroke="#1a3860" stroke-width="2.5"/>
+    <line x1="146" y1="97"  x2="154" y2="97"  stroke="#1a3860" stroke-width="1.5"/>
+    <line x1="148" y1="90"  x2="152" y2="90"  stroke="#1a3860" stroke-width="1"/>
+    <circle cx="150" cy="83" r="2.5" fill="#00e5ff" opacity="0.9"/>
+    <circle cx="150" cy="83" r="6"   fill="#00e5ff" opacity="0.25" filter="url(#fmist)"/>
+
+    <!-- Trees (Ghibli style) — left -->
+    <rect x="4"  y="92"  width="7" height="46" rx="2" fill="#0e2030"/>
+    <ellipse cx="7"  cy="92"  rx="20" ry="25" fill="#162e42"/>
+    <ellipse cx="7"  cy="75"  rx="15" ry="20" fill="#1a3548"/>
+    <rect x="24" y="99"  width="6" height="39" rx="2" fill="#0e2030"/>
+    <ellipse cx="27" cy="99"  rx="16" ry="20" fill="#162e42"/>
+    <ellipse cx="27" cy="84"  rx="12" ry="16" fill="#1a3548"/>
+
+    <!-- Trees — right -->
+    <rect x="379" y="89"  width="7" height="49" rx="2" fill="#0e2030"/>
+    <ellipse cx="382" cy="89"  rx="20" ry="26" fill="#162e42"/>
+    <ellipse cx="382" cy="72"  rx="15" ry="20" fill="#1a3548"/>
+    <rect x="358" y="96"  width="6" height="41" rx="2" fill="#0e2030"/>
+    <ellipse cx="361" cy="96"  rx="16" ry="21" fill="#162e42"/>
+    <ellipse cx="361" cy="82"  rx="12" ry="16" fill="#1a3548"/>
+
+    <!-- Mid-ground trees -->
+    <rect x="174" y="104" width="5" height="32" rx="2" fill="#0e2030"/>
+    <ellipse cx="176" cy="104" rx="12" ry="16" fill="#152a40"/>
+    <rect x="210" y="106" width="4" height="30" rx="2" fill="#0e2030"/>
+    <ellipse cx="212" cy="106" rx="10" ry="14" fill="#152a40"/>
+
+    <!-- CERN underground glow (physics beneath our feet) -->
+    <ellipse cx="195" cy="136" rx="160" ry="22" fill="#0066cc" opacity="0.22" filter="url(#fmist)"/>
+    <ellipse cx="195" cy="132" rx="100" ry="12" fill="#00aaff" opacity="0.14" filter="url(#fmist)"/>
+
+    <!-- Warm window lights — Ghibli magic -->
+    <rect x="38"  y="124" width="4" height="3" rx="0.5" fill="#ffcc55" opacity="0.95"/>
+    <rect x="46"  y="122" width="3" height="3" rx="0.5" fill="#ffcc55" opacity="0.80"/>
+    <rect x="130" y="118" width="4" height="3" rx="0.5" fill="#ffcc55" opacity="0.90"/>
+    <rect x="138" y="116" width="3" height="3" rx="0.5" fill="#ffcc55" opacity="0.75"/>
+    <rect x="280" y="120" width="4" height="3" rx="0.5" fill="#ffcc55" opacity="0.90"/>
+    <rect x="290" y="118" width="3" height="3" rx="0.5" fill="#ffcc55" opacity="0.78"/>
+    <rect x="334" y="121" width="4" height="3" rx="0.5" fill="#ffcc55" opacity="0.85"/>
+    <rect x="342" y="119" width="2" height="2" rx="0.5" fill="#ffdd88" opacity="0.70"/>
+  </svg>
+</div>
+
+<script>
+  // ── QR CODE ──────────────────────────────────────────────────
+  new QRCode(document.getElementById('qrcode'), {
+    text: 'https://www.linkedin.com/in/jaroslawpawelczyk/',
+    width: 182,
+    height: 182,
+    colorDark:  '#010a1e',
+    colorLight: '#f5faff',
+    correctLevel: QRCode.CorrectLevel.H
+  });
+
+  // ── SPIRIT ORBS ──────────────────────────────────────────────
+  const sp = document.getElementById('spirits');
+  const orbs = [
+    {t:12,l:7,  s:5},{t:20,l:87,s:4},{t:32,l:14,s:3},
+    {t:27,l:72,s:4},{t:44,l:93,s:3},{t:55,l:4, s:5},
+    {t:16,l:52,s:3},{t:39,l:38,s:4},{t:62,l:82,s:3},
+    {t:30,l:28,s:4},{t:10,l:64,s:3},{t:48,l:57,s:4},
+    {t:68,l:20,s:3},{t:23,l:97,s:3},{t:50,l:70,s:3},
+  ];
+  function r(n){ return ((Math.random()-.5)*n).toFixed(1)+'px'; }
+  orbs.forEach(o => {
+    const el = document.createElement('div');
+    el.className = 'spirit';
+    const dur = 6 + Math.random()*9, dur2 = 3 + Math.random()*5;
+    el.style.cssText = `
+      top:${o.t}%;left:${o.l}%;
+      width:${o.s}px;height:${o.s}px;
+      --sf:${dur.toFixed(1)}s;--sf2:${dur2.toFixed(1)}s;
+      --x1:${r(55)};--y1:${r(45)};
+      --x2:${r(55)};--y2:${r(45)};
+      --x3:${r(55)};--y3:${r(45)};
+      animation-delay:${(Math.random()*9).toFixed(1)}s,${(Math.random()*6).toFixed(1)}s;
+    `;
+    sp.appendChild(el);
+  });
+</script>
+</body>
+</html>
