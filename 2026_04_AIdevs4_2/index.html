@@ -192,7 +192,7 @@
       opacity: 1;
     }
     .qr-overlay.visible .qr-box {
-      transform: scale(1) translateY(0);
+      transform: scale(1) translateY(-60px);
       opacity: 1;
     }
     .qr-overlay.hiding .qr-box {
@@ -260,6 +260,14 @@
 
     #qrcode canvas,
     #qrcode img { display: block; border-radius: 3px; }
+
+    .qr-badges {
+      display: block;
+      max-width: 220px;
+      height: auto;
+      margin: 0 auto 18px;
+      border-radius: 8px;
+    }
 
     .qr-overlay-label {
       font-size: 9px;
@@ -372,6 +380,7 @@
 <div class="qr-overlay" id="qrOverlay" role="dialog" aria-modal="true" aria-label="QR code">
   <div class="qr-backdrop" id="qrBackdrop"></div>
   <div class="qr-box">
+    <img class="qr-badges" src="badges.png" alt="badges">
     <div class="qr-overlay-label">Scan to connect</div>
     <div class="qr-frame">
       <div class="scan-line"></div>
